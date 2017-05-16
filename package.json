@@ -13,12 +13,12 @@
     "type": "git",
     "url": "https://github.com/buunguyen/octotree"
   },
-  "author": "Buu Nguyen <buunguyen@gmail.com> (https://github.com/buunguyen)",
+  "author": "Adhityan <kvadhi@gmail.com> (https://github.com/adhityan)",
   "license": "AGPL",
   "bugs": {
-    "url": "https://github.com/buunguyen/octotree/issues"
+    "url": "https://github.com/adhitan/octotree/issues"
   },
-  "homepage": "https://github.com/buunguyen/octotree",
+  "homepage": "https://github.com/adhitan/octotree",
   "devDependencies": {
     "async": "~0.9.0",
     "babel-core": "^6.1.2",

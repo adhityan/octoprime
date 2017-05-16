@@ -21,7 +21,7 @@ gulp.task('default', ['build'], () => {
 })
 
 gulp.task('dist', ['build'], (cb) => {
-  $.runSequence('firefox:xpi', 'chrome:zip', 'chrome:crx', 'opera:nex', cb)
+  $.runSequence('chrome:unzip', cb)
 })
 
 gulp.task('test', ['build'], (cb) => {
@@ -74,6 +74,10 @@ gulp.task('chrome', ['chrome:js'], () => {
     pipe('./src/config/chrome/background.js', $.babel(), './tmp/chrome/'),
     pipe('./src/config/chrome/manifest.json', $.replace('$VERSION', version), './tmp/chrome/')
   )
+})
+
+gulp.task('chrome:unzip', () => {
+    return pipe('./tmp/chrome/**/*', './dist/chrome')
 })
 
 gulp.task('chrome:zip', () => {
