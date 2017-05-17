@@ -370,6 +370,7 @@ a.octotree_toggle {
   .issue_buttons {
     flex: 1 85px;
     text-align: right;
+    color:#666666;
 
     .issue_button {
       display: inline-block;
@@ -377,38 +378,80 @@ a.octotree_toggle {
     }
 
     .issue_button:hover {
-      //color: white;
+      color:#000000;
     }
 
-    .issue_button_like {
-      background: data-uri('image/svg+xml;charset=UTF-8', '../adapters/octicons/like-icon.svg') no-repeat top left;
-      background-size: 14px 13px;
-      padding-left: 16px;
-      line-height: 14px;
+    .issue_button {
+      &_like {
+        &_count {
+          display: inline-block;
+          padding-left: 2px;
+          &_icon {
+            display: inline-block;
+            width: 14px;
+            height: 13px;
+            line-height: 14px;
+            -webkit-mask: data-uri('image/svg+xml;charset=UTF-8', '../adapters/octicons/like-icon.svg') no-repeat 100% 100% ;
+            mask: data-uri('image/svg+xml;charset=UTF-8', '../adapters/octicons/like-icon.svg') no-repeat 100% 100%;
+            -webkit-mask-size: 14px 13px;
+            mask-size: 14px 13px;
+            background-color: #666666;
+          }
+        }
 
-      &_reacted {
-        background: red;
+        &_reacted {
+          color: #20BF48;
+          .issue_button_like_count {
+            &_icon {
+              background-color: #20BF48;
+            }
+          }
+        }
+        &:hover {
+          .issue_button_like_count {
+            &_icon {
+              background-color :#000000;
+            }
+          }
+        }
       }
 
-      .issue_button_like_count {
+      &_volunteer {
+        padding-left: 10px;
+        &_count {
+          display: inline-block;
+          padding-left: 2px;
+          &_icon {
+            display: inline-block;
+            width: 12px;
+            height: 13px;
+            line-height: 14px;
+            -webkit-mask: data-uri('image/svg+xml;charset=UTF-8', '../adapters/octicons/volunteer-icon.svg') no-repeat 100% 100% ;
+            mask: data-uri('image/svg+xml;charset=UTF-8', '../adapters/octicons/volunteer-icon.svg') no-repeat 100% 100%;
+            -webkit-mask-size: 12px 12px;
+            mask-size: 12px 12px;
+            background-color: #666666;
+          }
+        }
 
+        &_reacted {
+          color: #20BF48;
+          .issue_button_volunteer_count {
+            &_icon {
+              background-color: #20BF48;
+            }
+          }
+        }
+
+        &:hover {
+          .issue_button_volunteer_count {
+            &_icon {
+              background-color :#000000;
+            }
+          }
+        }
       }
     }
 
-    .issue_button_volunteer {
-      margin-left: 10px;
-      background: data-uri('image/svg+xml;charset=UTF-8', '../adapters/octicons/volunteer-icon.svg') no-repeat top left;
-      background-size: 12px 12px;
-      padding-left: 13px;
-      line-height: 14px;
-
-      &_reacted {
-        background: red;
-      }
-
-      .issue_button_volunteer_count {
-
-      }
-    }
   }
 }
