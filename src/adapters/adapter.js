@@ -189,6 +189,7 @@ class Adapter {
 
     const post_process = (err, issues) => {
       if (err) return cb(err)
+      //console.log('woah', issues)
 
       issues.forEach((issue, index) => {
         let is_user_assigned = false
@@ -210,7 +211,6 @@ class Adapter {
         parallel(issues,
           (item, cb_inner, index) => {
             this._getIssueReactions(item.number, opts, (err, reactions) => {
-              //console.log('woah', item.number, reactions)
               let positive = 0, negative = 0, neutral = 0, my_reaction = null
               reactions.forEach((item) => {
                 if(item.content === '+1' || item.content === 'laugh' || item.content === 'heart' || item.content === 'hooray') positive++

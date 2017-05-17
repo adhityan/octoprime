@@ -166,7 +166,10 @@ class GitHub extends PjaxAdapter {
   _getIssues(opts, cb) {
     this._get(`/issues`, opts, (err, res) => {
       if (err) cb(err)
-      else cb(null, res)
+      else {
+        res = res.filter((item) => !item.pull_request)
+        cb(null, res)
+      }
     })
   }
 
@@ -240,7 +243,7 @@ class GitHub extends PjaxAdapter {
   unAssignMeFromIssue(issue_id, opts, cb) {
     const current_user = this._getLoginUser()
     opts.extra_content = {assignees:[current_user]}
-    
+
     this._delete(`/issues/${issue_id}/assignees`, opts, (err, res) => {
       if (err) cb(err)
       else cb(null, res)

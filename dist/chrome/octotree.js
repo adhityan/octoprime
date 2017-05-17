@@ -247,6 +247,7 @@ var Adapter = function () {
 
       var post_process = function post_process(err, issues) {
         if (err) return cb(err);
+        //console.log('woah', issues)
 
         issues.forEach(function (issue, index) {
           var is_user_assigned = false;
@@ -266,7 +267,6 @@ var Adapter = function () {
 
           parallel(issues, function (item, cb_inner, index) {
             _this2._getIssueReactions(item.number, opts, function (err, reactions) {
-              //console.log('woah', item.number, reactions)
               var positive = 0,
                   negative = 0,
                   neutral = 0,
@@ -1173,7 +1173,12 @@ var GitHub = function (_PjaxAdapter) {
     key: '_getIssues',
     value: function _getIssues(opts, cb) {
       this._get('/issues', opts, function (err, res) {
-        if (err) cb(err);else cb(null, res);
+        if (err) cb(err);else {
+          res = res.filter(function (item) {
+            return !item.pull_request;
+          });
+          cb(null, res);
+        }
       });
     }
 
@@ -1734,7 +1739,8 @@ var IssueView = function () {
           $(_this).trigger(EVENT.FETCH_ERROR, [err]);
         } else {
           var content = '<ul class=\'issues_list\'>';
-          console.log('here', issues);
+          //console.log('here', issues)
+
           issues.forEach(function (item) {
             content += '<li>' + _this._issueHtml(item) + '</li>';
           });

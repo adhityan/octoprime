@@ -51,7 +51,8 @@ class IssueView {
       }
       else {
         let content = '<ul class=\'issues_list\'>'
-        console.log('here', issues)
+        //console.log('here', issues)
+
         issues.forEach((item) => {
           content += '<li>'
                   +  this._issueHtml(item)
