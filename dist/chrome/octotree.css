@@ -363,9 +363,15 @@ a.octotree_toggle .popup > .content {
 .octotree_issues_view .issue_buttons .issue_button_like {
   display: inline-block;
 }
+.octotree_issues_view .issue_buttons .issue_button_like_reacted {
+  background: red;
+}
 .octotree_issues_view .issue_buttons .issue_button_volunteer {
   margin-left: 5px;
   display: inline-block;
+}
+.octotree_issues_view .issue_buttons .issue_button_volunteer_reacted {
+  background: red;
 }
 .octotree-show .octotree_bitbucket_only {
   display: none;
