@@ -1585,12 +1585,27 @@ var IssueView = function () {
     key: '_onLikeClick',
     value: function _onLikeClick(event) {
       var $target = $(event.target);
+      var has_reacted = $target.hasClass('reacted');
       var issueId = $target.closest('.issue_entry').data('id');
+
+      if (has_reacted) {
+        $target.removeClass('reacted');
+      } else {
+        $target.addClass('reacted');
+      }
     }
   }, {
     key: '_onVolunteerClick',
     value: function _onVolunteerClick(event) {
       var $target = $(event.target);
+      var has_reacted = $target.hasClass('reacted');
+      var issueId = $target.closest('.issue_entry').data('id');
+
+      if (has_reacted) {
+        $target.removeClass('reacted');
+      } else {
+        $target.addClass('reacted');
+      }
     }
   }]);
 
