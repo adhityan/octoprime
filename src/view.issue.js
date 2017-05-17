@@ -62,7 +62,7 @@ class IssueView {
         this.$contributeCounter.show()
 
         let content = '<ul class=\'issues_list\'>'
-        console.log('here', issues)
+        //console.log('here', issues)
 
         issues.forEach((item) => {
           content += this._issueHtml(item)
@@ -80,7 +80,7 @@ class IssueView {
 
   _sort(issues) {
     return issues.sort((a, b) => {
-      console.log(a.title, b.title, a.reactions.positive, b.reactions.positive, a.help_wanted, b.help_wanted)
+      //console.log(a.title, b.title, a.reactions.positive, b.reactions.positive, a.help_wanted, b.help_wanted)
       if(a.reactions.positive > b.reactions.positive) return -1
       else if(a.reactions.positive < b.reactions.positive) return 1
       else if(a.help_wanted && !b.help_wanted) return -1
