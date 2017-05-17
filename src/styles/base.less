@@ -291,6 +291,8 @@ a.octotree_toggle {
 
 .octoprime_links {
   padding: 5px 10px;
+  border-bottom: 1px solid rgb(225, 228, 232);
+  border-right: 1px solid rgb(225, 228, 232);
   &_link{
     padding: 3px 10px;
     font-size: 13px;
@@ -356,6 +358,9 @@ a.octotree_toggle {
         display: flex;
         flex-flow: row;
       }
+      &:hover{
+        background-color: #f5f5f5;
+      }
     }
   }
 
@@ -375,10 +380,9 @@ a.octotree_toggle {
     .issue_button {
       display: inline-block;
       cursor: pointer;
-    }
-
-    .issue_button:hover {
-      color:#000000;
+      &:hover {
+        color:#000000;
+      }
     }
 
     .issue_button {
