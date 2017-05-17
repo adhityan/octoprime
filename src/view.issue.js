@@ -62,12 +62,11 @@ class IssueView {
         this.$contributeCounter.show()
 
         let content = '<ul class=\'issues_list\'>'
-        //console.log('here', issues)
+        console.log('here', issues)
 
         issues.forEach((item) => {
-          content += '<li>'
-                  +  this._issueHtml(item)
-                  +  '</li>'
+          content += this._issueHtml(item)
+
         })
         content += '</ul>'
                 +  '<div class=\'issues_add_panel\'>'
@@ -81,13 +80,20 @@ class IssueView {
 
   _sort(issues) {
     return issues.sort((a, b) => {
-      if(a.reactions.positive >= b.reactions.positive) return -1
+      console.log(a.title, b.title, a.reactions.positive, b.reactions.positive, a.help_wanted, b.help_wanted)
+      if(a.reactions.positive > b.reactions.positive) return -1
+      else if(a.reactions.positive < b.reactions.positive) return 1
+      else if(a.help_wanted && !b.help_wanted) return -1
+      else if(!a.help_wanted && b.help_wanted) return 1
+      else if(a.reactions.positive === b.reactions.positive) return -1
       else return 1
     })
   }
 
   _issueHtml(issue) {
-    return '<div class=\'issue_entry\' data-id=\'' + issue.number + '\'>'
+    return '<li class=\''
+          +((issue.help_wanted)?'issue_help_wanted':'')
+          +'\'><div class=\'issue_entry\' data-id=\'' + issue.number + '\'>'
           +'<div class=\'issue_title\'>'
           +'<a class=\'issue-anchor\' data-href=\'' + issue.html_url + '\'>'
           +issue.title
@@ -107,7 +113,7 @@ class IssueView {
           +'<span class=\'issue_button_volunteer_count_icon\'></span>'
           +'<span class=\'issue_button_counter issue_button_volunteer_count\'>'
           + issue.assignees.length +'</span>'
-          +'</div></div></div>';
+          +'</div></div></div></li>';
   }
 
   _onLikeClick(event) {
@@ -208,9 +214,11 @@ class IssueView {
         return
       }
 
-      const content = '<li>' + this._issueHtml(issue) + '</li>'
+      const content = this._issueHtml(issue)
       this.$panel.find('.issues_list').append(content)
       $textfield.val('')
+
+      this.$contributeCounter.text(parseInt(this.$contributeCounter.text()) + 1)
     })
   }
 
@@ -224,10 +232,9 @@ class IssueView {
         //console.log('here', issues)
 
         issues.forEach((item) => {
-          content += '<li>'
-            +  this._issueHtml(item)
-            +  '</li>'
+          content += this._issueHtml(item)
         })
+
         content += '</ul>'
           +  '<div class=\'issues_add_panel\'>'
           +  '<input type=\'text\' class=\'issues_add_panel_text\' />'

@@ -197,9 +197,15 @@ class Adapter {
           if(assignee.login === login_handle) is_user_assigned = true
         })
 
+        let help_wanted = false
+        issue.labels.forEach((label) => {
+          if(label.name === 'help wanted') help_wanted = true
+        })
+
         let url = issue.html_url
         if (url.indexOf('github.com') !== 0) url = url.replace(window.location.protocol + '//github.com', '')
         issues[index].html_url = url
+        issues[index].help_wanted = help_wanted
         issues[index].is_user_assigned = is_user_assigned
       })
 
@@ -484,11 +490,17 @@ class Adapter {
       this.addIssueReaction(issue.number, 'heart', opts, (err, reaction) => {
         if (err) return cb(err)
 
+        let help_wanted = false
+        issue.labels.forEach((label) => {
+          if(label.name === 'help wanted') help_wanted = true
+        })
+
         let url = issue.html_url
         if (url.indexOf('github.com') !== 0) url = url.replace(window.location.protocol + '//github.com', '')
         issue.reactions = { positive: 1, negative: 0, neutral: 0, actual: [reaction], user_reaction: reaction }
         issue.html_url = url
         issue.is_user_assigned = false
+        issue.help_wanted = help_wanted
         cb(null, issue)
       })
     })
