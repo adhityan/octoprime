@@ -283,8 +283,16 @@ a.octotree_toggle .popup > .content {
   }
 }
 .octoprime_links {
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding: 5px 10px;
+}
+.octoprime_links_link {
+  padding: 3px 10px;
+  font-size: 13px;
+  display: inline-block;
+}
+.octoprime_links_act {
+  background-color: #dddddd;
+  border-radius: 30px;
 }
 .octotree_issues_view .octotree_view_header {
   padding-left: 13px;
