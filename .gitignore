@@ -5,3 +5,4 @@ tmp
 submissions.txt
 npm-debug.log
 *.iml
+dist
