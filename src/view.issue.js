@@ -69,12 +69,12 @@ class IssueView {
           +'</a></div>'
           +'<div class=\'issue_buttons\'>'
           +'<div class=\'issue_button issue_button_like'
-          + ((issue.reactions.user_reaction)?' reacted':'')
+          + ((issue.reactions.user_reaction)?' issue_button_like_reacted':'')
           + '\'>'
           +'<span class=\'issue_button_counter issue_button_like_count\'>' + issue.reactions.positive +'</span>'
           +'</div>'
           +'<div class=\'issue_button issue_button_volunteer'
-          + ((issue.is_user_assigned)?' reacted':'')
+          + ((issue.is_user_assigned)?' issue_button_volunteer_reacted':'')
           + '\'>'
           +'<span class=\'issue_button_counter issue_button_volunteer_count\'>' + issue.assignees.length +'</span>'
           +'</div></div></div>';
@@ -82,8 +82,8 @@ class IssueView {
 
   _onLikeClick(event) {
     const $target = $(event.target)
-    const has_reacted = $target.hasClass('reacted')
     const issueId = $target.closest('.issue_entry').data('id')
+    const has_reacted = $target.hasClass('issue_button_like_reacted')
 
     if(has_reacted) {
       $target.removeClass('reacted')
@@ -95,8 +95,8 @@ class IssueView {
 
   _onVolunteerClick(event) {
     const $target = $(event.target)
-    const has_reacted = $target.hasClass('reacted')
     const issueId = $target.closest('.issue_entry').data('id')
+    const has_reacted = $target.hasClass('issue_button_volunteer_reacted')
 
     if(has_reacted) {
       $target.removeClass('reacted')
