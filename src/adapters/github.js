@@ -207,10 +207,53 @@ class GitHub extends PjaxAdapter {
     })
   }
 
+  // @override
+  addIssueReaction(issue_id, reaction_type, opts, cb) {
+    opts.media_type = 'application/vnd.github.squirrel-girl-preview'
+    this._post(`/issues/${issue_id}/reactions`, {content:reaction_type}, opts, (err, res) => {
+      if (err) cb(err)
+      else cb(null, res)
+    })
+  }
+
+  // @override
+  removeIssueReaction(issue_id, reaction_id, opts, cb) {
+    opts.absolute_url = true
+    opts.media_type = 'application/vnd.github.squirrel-girl-preview'
+    this._delete(`/reactions/${reaction_id}`, opts, (err, res) => {
+      if (err) cb(err)
+      else cb(null, res)
+    })
+  }
+
+  // @override
+  assignMeToIssue(issue_id, opts, cb) {
+    const current_user = this._getLoginUser()
+
+    this._post(`/issues/${issue_id}/assignees`, {assignees:[current_user]}, opts, (err, res) => {
+      if (err) cb(err)
+      else cb(null, res)
+    })
+  }
+
+  // @override
+  unAssignMeFromIssue(issue_id, opts, cb) {
+    const current_user = this._getLoginUser()
+    opts.extra_content = {assignees:[current_user]}
+    
+    this._delete(`/issues/${issue_id}/assignees`, opts, (err, res) => {
+      if (err) cb(err)
+      else cb(null, res)
+    })
+  }
+
   _get(path, opts, cb) {
-    const host = location.protocol + '//' +
-      (location.host === 'github.com' ? 'api.github.com' : (location.host + '/api/v3'))
-    const url = `${host}/repos/${opts.repo.username}/${opts.repo.reponame}${path || ''}`
+    const host = location.protocol + '//' + (location.host === 'github.com' ? 'api.github.com' : (location.host + '/api/v3'))
+
+    let url;
+    if (opts.absolute_url) url = `${host}${path}`
+    else url = `${host}/repos/${opts.repo.username}/${opts.repo.reponame}${path || ''}`
+
     const cfg  = { url, method: 'GET', cache: false, headers: {} }
 
     if (opts.token) {
@@ -232,10 +275,13 @@ class GitHub extends PjaxAdapter {
   }
 
   _post(path, params, opts, cb) {
-    const host = location.protocol + '//' +
-      (location.host === 'github.com' ? 'api.github.com' : (location.host + '/api/v3'))
-    const url = `${host}/repos/${opts.repo.username}/${opts.repo.reponame}${path || ''}`
-    const cfg  = { url, method: 'POST', cache: false, headers: {} }
+    const host = location.protocol + '//' + (location.host === 'github.com' ? 'api.github.com' : (location.host + '/api/v3'))
+
+    let url;
+    if (opts.absolute_url) url = `${host}${path}`
+    else url = `${host}/repos/${opts.repo.username}/${opts.repo.reponame}${path || ''}`
+
+    const cfg  = { url, method: 'POST', data: JSON.stringify(params), cache: false, headers: {} }
 
     if (opts.token) {
       cfg.headers = { Authorization: 'token ' + opts.token }
@@ -243,6 +289,37 @@ class GitHub extends PjaxAdapter {
 
     if(opts.media_type) {
       cfg.headers.Accept = opts.media_type
+    }
+
+    $.ajax(cfg)
+      .done((data) => {
+        if (path && path.indexOf('/git/trees') === 0 && data.truncated) {
+          this._handleError({status: 206}, cb)
+        }
+        else cb(null, data)
+      })
+      .fail((jqXHR) => this._handleError(jqXHR, cb))
+  }
+
+  _delete(path, opts, cb) {
+    const host = location.protocol + '//' + (location.host === 'github.com' ? 'api.github.com' : (location.host + '/api/v3'))
+
+    let url;
+    if (opts.absolute_url) url = `${host}${path}`
+    else url = `${host}/repos/${opts.repo.username}/${opts.repo.reponame}${path || ''}`
+
+    const cfg  = { url, method: 'DELETE', cache: false, headers: {} }
+
+    if (opts.token) {
+      cfg.headers = { Authorization: 'token ' + opts.token }
+    }
+
+    if(opts.media_type) {
+      cfg.headers.Accept = opts.media_type
+    }
+
+    if(opts.extra_content) {
+      cfg.data = JSON.stringify(opts.extra_content)
     }
 
     $.ajax(cfg)

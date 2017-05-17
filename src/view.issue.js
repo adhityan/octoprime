@@ -41,16 +41,18 @@ class IssueView {
   }
 
   load(repo, token) {
+    this.repo = repo
+    this.token = token
     this._showHeader(repo)
 
-    this.adapter.loadIssues({repo, token}, (err, treeData) => {
+    this.adapter.loadIssues({repo, token}, (err, issues) => {
       if (err) {
         $(this).trigger(EVENT.FETCH_ERROR, [err])
       }
       else {
         let content = '<ul class=\'issues_list\'>'
-        console.log('here', treeData)
-        treeData.forEach((item) => {
+        console.log('here', issues)
+        issues.forEach((item) => {
           content += '<li>'
                   +  this._issueHtml(item)
                   +  '</li>'
@@ -70,40 +72,73 @@ class IssueView {
           +'<div class=\'issue_buttons\'>'
           +'<div class=\'issue_button issue_button_like'
           + ((issue.reactions.user_reaction)?' issue_button_like_reacted':'')
-          + '\'>'
-          +'<span class=\'issue_button_counter issue_button_like_count\'>' + issue.reactions.positive +'</span>'
+          + '\' '
+          + ((issue.reactions.user_reaction)?' data-reaction-id='+issue.reactions.user_reaction.id:'') + '>'
+          +'<span class=\'issue_button_counter issue_button_like_count\'>'
+          + issue.reactions.positive +'</span>'
           +'</div>'
           +'<div class=\'issue_button issue_button_volunteer'
           + ((issue.is_user_assigned)?' issue_button_volunteer_reacted':'')
           + '\'>'
-          +'<span class=\'issue_button_counter issue_button_volunteer_count\'>' + issue.assignees.length +'</span>'
+          +'<span class=\'issue_button_counter issue_button_volunteer_count\'>'
+          + issue.assignees.length +'</span>'
           +'</div></div></div>';
   }
 
   _onLikeClick(event) {
     const $target = $(event.currentTarget)
+    const $counter = $target.children('.issue_button_counter')
     const issueId = $target.closest('.issue_entry').data('id')
     const has_reacted = $target.hasClass('issue_button_like_reacted')
-    console.log('yo', issueId, has_reacted, $target, event)
+    let current_likes = parseInt($counter.text())
 
     if(has_reacted) {
-      $target.removeClass('issue_button_like_reacted')
+      var reaction_id = $target.data('reaction-id')
+      this.adapter.removeIssueReaction(issueId, reaction_id, {repo: this.repo, token: this.token}, (err, reaction) => {
+        if(err) return console.log('Error', err)
+
+        current_likes--
+        $counter.text(current_likes)
+        $target.removeClass('issue_button_like_reacted')
+        $target.data('reaction-id', '')
+      })
     }
     else {
-      $target.addClass('issue_button_like_reacted')
+      this.adapter.addIssueReaction(issueId, 'heart', {repo: this.repo, token: this.token}, (err, reaction) => {
+        if(err) return console.log('Error', err)
+
+        current_likes++
+        $counter.text(current_likes)
+        $target.addClass('issue_button_like_reacted')
+        $target.data('reaction-id', reaction.id)
+      })
     }
   }
 
   _onVolunteerClick(event) {
     const $target = $(event.currentTarget)
+    const $counter = $target.children('.issue_button_counter')
     const issueId = $target.closest('.issue_entry').data('id')
     const has_reacted = $target.hasClass('issue_button_volunteer_reacted')
+    let current_volunteers = parseInt($counter.text())
 
     if(has_reacted) {
-      $target.removeClass('issue_button_volunteer_reacted')
+      this.adapter.unAssignMeFromIssue(issueId, {repo: this.repo, token: this.token}, (err, reaction) => {
+        if(err) return console.log('Error', err)
+
+        current_volunteers--
+        $counter.text(current_volunteers)
+        $target.removeClass('issue_button_volunteer_reacted')
+      })
     }
     else {
-      $target.addClass('issue_button_volunteer_reacted')
+      this.adapter.assignMeToIssue(issueId, {repo: this.repo, token: this.token}, (err, reaction) => {
+        if(err) return console.log('Error', err)
+
+        current_volunteers++
+        $counter.text(current_volunteers)
+        $target.addClass('issue_button_volunteer_reacted')
+      })
     }
   }
 }

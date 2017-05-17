@@ -542,6 +542,60 @@ var Adapter = function () {
     value: function _getLoginUser() {
       throw new Error('Not implemented');
     }
+
+    /**
+     * Add new issue reaction.
+     * @param {int} issue_id
+     * @param {string} reaction_type
+     * @param {Object} opts - {token, repo}
+     * @api protected
+     */
+
+  }, {
+    key: 'addIssueReaction',
+    value: function addIssueReaction(issue_id, reaction_type, opts, cb) {
+      throw new Error('Not implemented');
+    }
+
+    /**
+     * Remove existing issue reaction.
+     * @param {int} issue_id
+     * @param {int} reaction_id
+     * @param {Object} opts - {token, repo}
+     * @api protected
+     */
+
+  }, {
+    key: 'removeIssueReaction',
+    value: function removeIssueReaction(issue_id, reaction_id, opts, cb) {
+      throw new Error('Not implemented');
+    }
+
+    /**
+     * Adds current user as an assignee to an issue
+     * @param {int} issue_id
+     * @param {Object} opts - {token, repo}
+     * @api protected
+     */
+
+  }, {
+    key: 'assignMeToIssue',
+    value: function assignMeToIssue(issue_id, opts, cb) {
+      throw new Error('Not implemented');
+    }
+
+    /**
+     * Removes current user from assignees of an issue
+     * @param {int} issue_id
+     * @param {Object} opts - {token, repo}
+     * @api protected
+     */
+
+  }, {
+    key: 'unAssignMeFromIssue',
+    value: function unAssignMeFromIssue(issue_id, opts, cb) {
+      throw new Error('Not implemented');
+    }
   }]);
 
   return Adapter;
@@ -1171,13 +1225,64 @@ var GitHub = function (_PjaxAdapter) {
         cb(null, parseGitmodules(data));
       });
     }
+
+    // @override
+
+  }, {
+    key: 'addIssueReaction',
+    value: function addIssueReaction(issue_id, reaction_type, opts, cb) {
+      opts.media_type = 'application/vnd.github.squirrel-girl-preview';
+      this._post('/issues/' + issue_id + '/reactions', { content: reaction_type }, opts, function (err, res) {
+        if (err) cb(err);else cb(null, res);
+      });
+    }
+
+    // @override
+
+  }, {
+    key: 'removeIssueReaction',
+    value: function removeIssueReaction(issue_id, reaction_id, opts, cb) {
+      opts.absolute_url = true;
+      opts.media_type = 'application/vnd.github.squirrel-girl-preview';
+      this._delete('/reactions/' + reaction_id, opts, function (err, res) {
+        if (err) cb(err);else cb(null, res);
+      });
+    }
+
+    // @override
+
+  }, {
+    key: 'assignMeToIssue',
+    value: function assignMeToIssue(issue_id, opts, cb) {
+      var current_user = this._getLoginUser();
+
+      this._post('/issues/' + issue_id + '/assignees', { assignees: [current_user] }, opts, function (err, res) {
+        if (err) cb(err);else cb(null, res);
+      });
+    }
+
+    // @override
+
+  }, {
+    key: 'unAssignMeFromIssue',
+    value: function unAssignMeFromIssue(issue_id, opts, cb) {
+      var current_user = this._getLoginUser();
+      opts.extra_content = { assignees: [current_user] };
+
+      this._delete('/issues/' + issue_id + '/assignees', opts, function (err, res) {
+        if (err) cb(err);else cb(null, res);
+      });
+    }
   }, {
     key: '_get',
     value: function _get(path, opts, cb) {
       var _this3 = this;
 
       var host = location.protocol + '//' + (location.host === 'github.com' ? 'api.github.com' : location.host + '/api/v3');
-      var url = host + '/repos/' + opts.repo.username + '/' + opts.repo.reponame + (path || '');
+
+      var url = void 0;
+      if (opts.absolute_url) url = '' + host + path;else url = host + '/repos/' + opts.repo.username + '/' + opts.repo.reponame + (path || '');
+
       var cfg = { url: url, method: 'GET', cache: false, headers: {} };
 
       if (opts.token) {
@@ -1194,6 +1299,66 @@ var GitHub = function (_PjaxAdapter) {
         } else cb(null, data);
       }).fail(function (jqXHR) {
         return _this3._handleError(jqXHR, cb);
+      });
+    }
+  }, {
+    key: '_post',
+    value: function _post(path, params, opts, cb) {
+      var _this4 = this;
+
+      var host = location.protocol + '//' + (location.host === 'github.com' ? 'api.github.com' : location.host + '/api/v3');
+
+      var url = void 0;
+      if (opts.absolute_url) url = '' + host + path;else url = host + '/repos/' + opts.repo.username + '/' + opts.repo.reponame + (path || '');
+
+      var cfg = { url: url, method: 'POST', data: JSON.stringify(params), cache: false, headers: {} };
+
+      if (opts.token) {
+        cfg.headers = { Authorization: 'token ' + opts.token };
+      }
+
+      if (opts.media_type) {
+        cfg.headers.Accept = opts.media_type;
+      }
+
+      $.ajax(cfg).done(function (data) {
+        if (path && path.indexOf('/git/trees') === 0 && data.truncated) {
+          _this4._handleError({ status: 206 }, cb);
+        } else cb(null, data);
+      }).fail(function (jqXHR) {
+        return _this4._handleError(jqXHR, cb);
+      });
+    }
+  }, {
+    key: '_delete',
+    value: function _delete(path, opts, cb) {
+      var _this5 = this;
+
+      var host = location.protocol + '//' + (location.host === 'github.com' ? 'api.github.com' : location.host + '/api/v3');
+
+      var url = void 0;
+      if (opts.absolute_url) url = '' + host + path;else url = host + '/repos/' + opts.repo.username + '/' + opts.repo.reponame + (path || '');
+
+      var cfg = { url: url, method: 'DELETE', cache: false, headers: {} };
+
+      if (opts.token) {
+        cfg.headers = { Authorization: 'token ' + opts.token };
+      }
+
+      if (opts.media_type) {
+        cfg.headers.Accept = opts.media_type;
+      }
+
+      if (opts.extra_content) {
+        cfg.data = JSON.stringify(opts.extra_content);
+      }
+
+      $.ajax(cfg).done(function (data) {
+        if (path && path.indexOf('/git/trees') === 0 && data.truncated) {
+          _this5._handleError({ status: 206 }, cb);
+        } else cb(null, data);
+      }).fail(function (jqXHR) {
+        return _this5._handleError(jqXHR, cb);
       });
     }
   }]);
@@ -1560,15 +1725,17 @@ var IssueView = function () {
     value: function load(repo, token) {
       var _this = this;
 
+      this.repo = repo;
+      this.token = token;
       this._showHeader(repo);
 
-      this.adapter.loadIssues({ repo: repo, token: token }, function (err, treeData) {
+      this.adapter.loadIssues({ repo: repo, token: token }, function (err, issues) {
         if (err) {
           $(_this).trigger(EVENT.FETCH_ERROR, [err]);
         } else {
           var content = '<ul class=\'issues_list\'>';
-          console.log('here', treeData);
-          treeData.forEach(function (item) {
+          console.log('here', issues);
+          issues.forEach(function (item) {
             content += '<li>' + _this._issueHtml(item) + '</li>';
           });
           content += '</ul>';
@@ -1579,33 +1746,63 @@ var IssueView = function () {
   }, {
     key: '_issueHtml',
     value: function _issueHtml(issue) {
-      return '<div class=\'issue_entry\' data-id=\'' + issue.number + '\'>' + '<div class=\'issue_title\'>' + '<a href=\'' + issue.url + '\'>' + issue.title + '</a></div>' + '<div class=\'issue_buttons\'>' + '<div class=\'issue_button issue_button_like' + (issue.reactions.user_reaction ? ' issue_button_like_reacted' : '') + '\'>' + '<span class=\'issue_button_counter issue_button_like_count\'>' + issue.reactions.positive + '</span>' + '</div>' + '<div class=\'issue_button issue_button_volunteer' + (issue.is_user_assigned ? ' issue_button_volunteer_reacted' : '') + '\'>' + '<span class=\'issue_button_counter issue_button_volunteer_count\'>' + issue.assignees.length + '</span>' + '</div></div></div>';
+      return '<div class=\'issue_entry\' data-id=\'' + issue.number + '\'>' + '<div class=\'issue_title\'>' + '<a href=\'' + issue.url + '\'>' + issue.title + '</a></div>' + '<div class=\'issue_buttons\'>' + '<div class=\'issue_button issue_button_like' + (issue.reactions.user_reaction ? ' issue_button_like_reacted' : '') + '\' ' + (issue.reactions.user_reaction ? ' data-reaction-id=' + issue.reactions.user_reaction.id : '') + '>' + '<span class=\'issue_button_counter issue_button_like_count\'>' + issue.reactions.positive + '</span>' + '</div>' + '<div class=\'issue_button issue_button_volunteer' + (issue.is_user_assigned ? ' issue_button_volunteer_reacted' : '') + '\'>' + '<span class=\'issue_button_counter issue_button_volunteer_count\'>' + issue.assignees.length + '</span>' + '</div></div></div>';
     }
   }, {
     key: '_onLikeClick',
     value: function _onLikeClick(event) {
       var $target = $(event.currentTarget);
+      var $counter = $target.children('.issue_button_counter');
       var issueId = $target.closest('.issue_entry').data('id');
       var has_reacted = $target.hasClass('issue_button_like_reacted');
-      console.log('yo', issueId, has_reacted, $target, event);
+      var current_likes = parseInt($counter.text());
 
       if (has_reacted) {
-        $target.removeClass('issue_button_like_reacted');
+        var reaction_id = $target.data('reaction-id');
+        this.adapter.removeIssueReaction(issueId, reaction_id, { repo: this.repo, token: this.token }, function (err, reaction) {
+          if (err) return console.log('Error', err);
+
+          current_likes--;
+          $counter.text(current_likes);
+          $target.removeClass('issue_button_like_reacted');
+          $target.data('reaction-id', '');
+        });
       } else {
-        $target.addClass('issue_button_like_reacted');
+        this.adapter.addIssueReaction(issueId, 'heart', { repo: this.repo, token: this.token }, function (err, reaction) {
+          if (err) return console.log('Error', err);
+
+          current_likes++;
+          $counter.text(current_likes);
+          $target.addClass('issue_button_like_reacted');
+          $target.data('reaction-id', reaction.id);
+        });
       }
     }
   }, {
     key: '_onVolunteerClick',
     value: function _onVolunteerClick(event) {
       var $target = $(event.currentTarget);
+      var $counter = $target.children('.issue_button_counter');
       var issueId = $target.closest('.issue_entry').data('id');
       var has_reacted = $target.hasClass('issue_button_volunteer_reacted');
+      var current_volunteers = parseInt($counter.text());
 
       if (has_reacted) {
-        $target.removeClass('issue_button_volunteer_reacted');
+        this.adapter.unAssignMeFromIssue(issueId, { repo: this.repo, token: this.token }, function (err, reaction) {
+          if (err) return console.log('Error', err);
+
+          current_volunteers--;
+          $counter.text(current_volunteers);
+          $target.removeClass('issue_button_volunteer_reacted');
+        });
       } else {
-        $target.addClass('issue_button_volunteer_reacted');
+        this.adapter.assignMeToIssue(issueId, { repo: this.repo, token: this.token }, function (err, reaction) {
+          if (err) return console.log('Error', err);
+
+          current_volunteers++;
+          $counter.text(current_volunteers);
+          $target.addClass('issue_button_volunteer_reacted');
+        });
       }
     }
   }]);

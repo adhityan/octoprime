@@ -421,6 +421,48 @@ class Adapter {
   _getLoginUser() {
     throw new Error('Not implemented')
   }
+
+  /**
+   * Add new issue reaction.
+   * @param {int} issue_id
+   * @param {string} reaction_type
+   * @param {Object} opts - {token, repo}
+   * @api protected
+   */
+  addIssueReaction(issue_id, reaction_type, opts, cb) {
+    throw new Error('Not implemented')
+  }
+
+  /**
+   * Remove existing issue reaction.
+   * @param {int} issue_id
+   * @param {int} reaction_id
+   * @param {Object} opts - {token, repo}
+   * @api protected
+   */
+  removeIssueReaction(issue_id, reaction_id, opts, cb) {
+    throw new Error('Not implemented')
+  }
+
+  /**
+   * Adds current user as an assignee to an issue
+   * @param {int} issue_id
+   * @param {Object} opts - {token, repo}
+   * @api protected
+   */
+  assignMeToIssue(issue_id, opts, cb) {
+    throw new Error('Not implemented')
+  }
+
+  /**
+   * Removes current user from assignees of an issue
+   * @param {int} issue_id
+   * @param {Object} opts - {token, repo}
+   * @api protected
+   */
+  unAssignMeFromIssue(issue_id, opts, cb) {
+    throw new Error('Not implemented')
+  }
 }
 
 
