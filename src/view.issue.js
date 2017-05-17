@@ -11,10 +11,14 @@ class IssueView {
   }
 
   _show() {
+    this.$hideIssueLink.removeClass('octoprime_links_act')
+    this.$showIssueLink.addClass('octoprime_links_act')
     $(this).trigger(EVENT.VIEW_READY)
   }
 
   _hide() {
+    this.$showIssueLink.removeClass('octoprime_links_act')
+    this.$hideIssueLink.addClass('octoprime_links_act')
     $(this).trigger(EVENT.VIEW_CLOSE)
   }
 

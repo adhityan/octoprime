@@ -1706,11 +1706,15 @@ var IssueView = function () {
   _createClass(IssueView, [{
     key: '_show',
     value: function _show() {
+      this.$hideIssueLink.removeClass('octoprime_links_act');
+      this.$showIssueLink.addClass('octoprime_links_act');
       $(this).trigger(EVENT.VIEW_READY);
     }
   }, {
     key: '_hide',
     value: function _hide() {
+      this.$showIssueLink.removeClass('octoprime_links_act');
+      this.$hideIssueLink.addClass('octoprime_links_act');
       $(this).trigger(EVENT.VIEW_CLOSE);
     }
   }, {
