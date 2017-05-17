@@ -230,4 +230,28 @@ class GitHub extends PjaxAdapter {
       })
       .fail((jqXHR) => this._handleError(jqXHR, cb))
   }
+
+  _post(path, params, opts, cb) {
+    const host = location.protocol + '//' +
+      (location.host === 'github.com' ? 'api.github.com' : (location.host + '/api/v3'))
+    const url = `${host}/repos/${opts.repo.username}/${opts.repo.reponame}${path || ''}`
+    const cfg  = { url, method: 'POST', cache: false, headers: {} }
+
+    if (opts.token) {
+      cfg.headers = { Authorization: 'token ' + opts.token }
+    }
+
+    if(opts.media_type) {
+      cfg.headers.Accept = opts.media_type
+    }
+
+    $.ajax(cfg)
+      .done((data) => {
+        if (path && path.indexOf('/git/trees') === 0 && data.truncated) {
+          this._handleError({status: 206}, cb)
+        }
+        else cb(null, data)
+      })
+      .fail((jqXHR) => this._handleError(jqXHR, cb))
+  }
 }

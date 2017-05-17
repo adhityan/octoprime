@@ -1584,10 +1584,10 @@ var IssueView = function () {
   }, {
     key: '_onLikeClick',
     value: function _onLikeClick(event) {
-      var $target = $(event.target);
+      var $target = $(event.currentTarget);
       var issueId = $target.closest('.issue_entry').data('id');
       var has_reacted = $target.hasClass('issue_button_like_reacted');
-      console.log('yo', issueId, has_reacted, $target);
+      console.log('yo', issueId, has_reacted, $target, event);
 
       if (has_reacted) {
         $target.removeClass('issue_button_like_reacted');
@@ -1598,7 +1598,7 @@ var IssueView = function () {
   }, {
     key: '_onVolunteerClick',
     value: function _onVolunteerClick(event) {
-      var $target = $(event.target);
+      var $target = $(event.currentTarget);
       var issueId = $target.closest('.issue_entry').data('id');
       var has_reacted = $target.hasClass('issue_button_volunteer_reacted');
 

@@ -81,10 +81,10 @@ class IssueView {
   }
 
   _onLikeClick(event) {
-    const $target = $(event.target)
+    const $target = $(event.currentTarget)
     const issueId = $target.closest('.issue_entry').data('id')
     const has_reacted = $target.hasClass('issue_button_like_reacted')
-    console.log('yo', issueId, has_reacted, $target)
+    console.log('yo', issueId, has_reacted, $target, event)
 
     if(has_reacted) {
       $target.removeClass('issue_button_like_reacted')
@@ -95,7 +95,7 @@ class IssueView {
   }
 
   _onVolunteerClick(event) {
-    const $target = $(event.target)
+    const $target = $(event.currentTarget)
     const issueId = $target.closest('.issue_entry').data('id')
     const has_reacted = $target.hasClass('issue_button_volunteer_reacted')
 
