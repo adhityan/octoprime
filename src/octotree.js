@@ -128,9 +128,10 @@ $(document).ready(() => {
             const repoChanged = JSON.stringify(repo, replacer) !== JSON.stringify(currRepo, replacer)
 
             if (repoChanged || reload === true) {
-              $document.trigger(EVENT.REQ_START)
               currRepo = repo
-              treeView.show(repo, token)
+              $document.trigger(EVENT.REQ_START)
+
+              treeView.load(repo, token, !issuesView.shown)
               issuesView.load(repo, token)
             }
             else {

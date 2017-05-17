@@ -13,15 +13,18 @@ class IssueView {
     this.$showIssueLink = $dom.find('.octoprime_links_contribute').click(this._show.bind(this))
     this.$contributeCounter = $dom.find('.octoprime_links_contribute_counter').click(this._show.bind(this))
     this.$contributeCounter.hide()
+    this.shown = false
   }
 
   _show() {
+    this.shown = true
     this.$hideIssueLink.removeClass('octoprime_links_act')
     this.$showIssueLink.addClass('octoprime_links_act')
     $(this).trigger(EVENT.VIEW_READY)
   }
 
   _hide() {
+    this.shown = false
     this.$showIssueLink.removeClass('octoprime_links_act')
     this.$hideIssueLink.addClass('octoprime_links_act')
     $(this).trigger(EVENT.VIEW_CLOSE)
@@ -49,7 +52,7 @@ class IssueView {
       })
   }
 
-  load(repo, token) {
+  load(repo, token, show) {
     this.repo = repo
     this.token = token
     this._showHeader(repo)
@@ -74,6 +77,7 @@ class IssueView {
                 +  '<button disabled class=\'issues_add_panel_submit\'>Submit</button>'
                 +  '</div>'
         this.$panel.html(content)
+        if(this.shown) this._show()
       }
     })
   }

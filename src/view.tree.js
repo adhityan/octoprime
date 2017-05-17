@@ -17,7 +17,7 @@ class TreeView {
     return this.$tree.jstree(true)
   }
 
-  show(repo, token) {
+  load(repo, token, show) {
     const $jstree = this.$jstree
 
     $jstree.settings.core.data = (node, cb) => {
@@ -41,7 +41,7 @@ class TreeView {
 
     this.$tree.one('refresh.jstree', () => {
       this.syncSelection()
-      $(this).trigger(EVENT.VIEW_READY)
+      if(show) $(this).trigger(EVENT.VIEW_READY)
     })
 
     this._showHeader(repo)
