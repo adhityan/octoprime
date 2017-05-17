@@ -50,10 +50,10 @@ class IssueView {
     this._showHeader(repo)
 
     this.adapter.loadIssues({repo, token}, (err, issues) => {
-      if (err) {
-        $(this).trigger(EVENT.FETCH_ERROR, [err])
-      }
+      if (err) $(this).trigger(EVENT.FETCH_ERROR, [err])
       else {
+        issues = this._sort(issues)
+
         let content = '<ul class=\'issues_list\'>'
         //console.log('here', issues)
 
@@ -65,6 +65,13 @@ class IssueView {
         content += '</ul>'
         this.$panel.html(content)
       }
+    })
+  }
+
+  _sort(issues) {
+    return issues.sort((a, b) => {
+      if(a.reactions.positive >= b.reactions.positive) return -1
+      else return 1
     })
   }
 
