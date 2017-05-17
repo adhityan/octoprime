@@ -52,7 +52,7 @@ class IssueView {
       })
   }
 
-  load(repo, token, show) {
+  load(repo, token) {
     this.repo = repo
     this.token = token
     this._showHeader(repo)
