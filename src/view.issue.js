@@ -87,12 +87,14 @@ class IssueView {
           + ((issue.reactions.user_reaction)?' issue_button_like_reacted':'')
           + '\' '
           + ((issue.reactions.user_reaction)?' data-reaction-id='+issue.reactions.user_reaction.id:'') + '>'
+          +'<span class=\'issue_button_like_count_icon\'></span>'
           +'<span class=\'issue_button_counter issue_button_like_count\'>'
           + issue.reactions.positive +'</span>'
           +'</div>'
           +'<div class=\'issue_button issue_button_volunteer'
           + ((issue.is_user_assigned)?' issue_button_volunteer_reacted':'')
           + '\'>'
+          +'<span class=\'issue_button_volunteer_count_icon\'></span>'
           +'<span class=\'issue_button_counter issue_button_volunteer_count\'>'
           + issue.assignees.length +'</span>'
           +'</div></div></div>';
