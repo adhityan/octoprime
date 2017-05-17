@@ -177,6 +177,60 @@ class Adapter {
   }
 
   /**
+   * Loads the issues of a repo.
+   * @param {Object} opts: {
+   *                  repo: the current repository,
+   *                  token (optional): the personal access token
+   *                 }
+   * @param {Function} cb(err: error, tree: Array[Array|item])
+   */
+  _loadIssues(opts, cb) {
+    const login_handle = this._getLoginUser()
+
+    const post_process = (err, issues) => {
+      if (err) return cb(err)
+
+      issues.forEach((issue, index) => {
+        let is_user_assigned = false
+        issue.assignees.forEach((assignee) => {
+          if(assignee.login === login_handle) is_user_assigned = true
+        })
+
+        issues[index].is_user_assigned = is_user_assigned
+      })
+
+      cb(null, issues)
+    }
+
+    if(this.canLoadIssueComments()) this._getIssues(opts, post_process)
+    else {
+      this._getIssues(opts, (err, issues) => {
+        if (err) return post_process(err)
+
+        parallel(issues,
+          (item, cb_inner, index) => {
+            this._getIssueReactions(item.number, opts, (err, reactions) => {
+              //console.log('woah', item.number, reactions)
+              let positive = 0, negative = 0, neutral = 0, my_reaction = null
+              reactions.forEach((item) => {
+                if(item.content === '+1' || item.content === 'laugh' || item.content === 'heart' || item.content === 'hooray') positive++
+                else if(item.content === '-1') negative++
+                else neutral++
+
+                if(item.user.login === login_handle) my_reaction = item
+              })
+
+              issues[index].reactions = { positive: positive, negative: negative, neutral: neutral, actual: reactions, user_reaction: my_reaction }
+              cb_inner()
+            })
+          },
+          () => post_process(null, issues)
+        )
+      })
+    }
+  }
+
+  /**
    * Inits behaviors after the sidebar is added to the DOM.
    * @api public
    */
@@ -212,10 +266,27 @@ class Adapter {
   }
 
   /**
+   * Returns whether the adapter is capable of loading the issue comments in
+   * a single request. This is usually determined by the underlying API.
+   * @api public
+   */
+  canLoadIssueComments() {
+    return false
+  }
+
+  /**
    * Loads the code tree.
    * @api public
    */
   loadCodeTree(opts, cb) {
+    throw new Error('Not implemented')
+  }
+
+  /**
+   * Loads the issues.
+   * @api public
+   */
+  loadIssues(opts, cb) {
     throw new Error('Not implemented')
   }
 
@@ -288,6 +359,45 @@ class Adapter {
   }
 
   /**
+   * Gets issues for repo.
+   * @param {Object} opts - {token, repo}
+   * @api protected
+   */
+  _getIssues(opts, cb) {
+    throw new Error('Not implemented')
+  }
+
+  /**
+   * Get issue comments.
+   * @param {int} issue_id
+   * @param {Object} opts - {token, repo}
+   * @api protected
+   */
+  _getIssueComments(issue_id, opts, cb) {
+    throw new Error('Not implemented')
+  }
+
+  /**
+   * Get issue reactions.
+   * @param {int} issue_id
+   * @param {Object} opts - {token, repo}
+   * @api protected
+   */
+  _getIssueReactions(issue_id, opts, cb) {
+    throw new Error('Not implemented')
+  }
+
+  /**
+   * Get issue events.
+   * @param {int} issue_id
+   * @param {Object} opts - {token, repo}
+   * @api protected
+   */
+  _getIssueEvents(issue_id, opts, cb) {
+    throw new Error('Not implemented')
+  }
+
+  /**
    * Gets submodules in the tree.
    * @param {Object} opts - {token, repo, encodedBranch}
    * @api protected
@@ -303,6 +413,14 @@ class Adapter {
    _getItemHref(repo, type, encodedPath) {
      return `/${repo.username}/${repo.reponame}/${type}/${repo.branch}/${encodedPath}`
    }
+
+  /**
+   * Returns user handle for logged in user.
+   * @api protected
+   */
+  _getLoginUser() {
+    throw new Error('Not implemented')
+  }
 }
 
 
@@ -325,7 +443,7 @@ class PjaxAdapter extends Adapter {
 
     opts = opts || {}
     const pjaxContainer = opts.pjaxContainer
-  
+
     if (!window.MutationObserver) return
 
     // Some host switch pages using pjax. This observer detects if the pjax container
@@ -366,7 +484,6 @@ class PjaxAdapter extends Adapter {
       detectLocChange()
     }
   }
-
 
   // @override
   // @param {Object} opts - {$pjax_container: jQuery object}

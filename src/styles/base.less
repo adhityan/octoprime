@@ -288,3 +288,112 @@ a.octotree_toggle {
      display: none;
   }
 }
+
+.octoprime_links {
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+  .octoprime_links_browse {
+
+  }
+
+  .octoprime_links_contribute {
+
+  }
+}
+
+.octotree_issues_view {
+  .octotree_view_header {
+    padding-left: 13px;
+  }
+  .octotree_header_repo, .octotree_header_branch {
+    width: 100%;
+    padding-right: 55px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .octotree_header_repo {
+    font-weight: bold;
+  }
+  .octotree_header_repo:before {
+    color: #bbb;
+    margin-right: 6px;
+    line-height: 28px;
+  }
+  .octotree_header_branch {
+    line-height: 1;
+    margin-top: -10px;
+    margin-bottom: 5px;
+    margin-left: -1px;
+    font-size: 12px;
+    margin-top: -6px;
+    font-size: 13px;
+  }
+  .octotree_header_branch:before {
+    margin-right: 8px;
+    margin-left: 3px;
+  }
+
+  .issues_list {
+    list-style: none;
+
+    li {
+      list-style: none;
+      padding: 5px 10px;
+
+      .issue_entry {
+        display: flex;
+        flex-flow: row;
+      }
+    }
+  }
+
+  .issue_title {
+    flex: 1 100%;
+
+    a {
+      text-overflow: ellipsis;
+    }
+  }
+
+  .issue_buttons {
+    flex: 1 75px;
+    align-content: right;
+
+    .issue_button {
+      border: solid 1px grey;
+      cursor: hand;
+    }
+
+    .issue_button:hover {
+      background: green;
+      color: white;
+    }
+
+    .issue_button_like {
+      display: inline-block;
+
+      .issue_button_like_count {
+
+      }
+    }
+
+    .issue_button_like .reacted {
+
+    }
+
+    .issue_button_volunteer {
+      margin-left: 5px;
+      display: inline-block;
+
+      .issue_button_volunteer_count {
+
+      }
+    }
+
+    .issue_button_volunteer .reacted {
+
+    }
+  }
+}

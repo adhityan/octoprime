@@ -1,6 +1,6 @@
 'use strict';
 
-var TEMPLATE = '<div>\n' + '  <nav class="octotree_sidebar">\n' + '    <a class="octotree_toggle btn">\n' + '      <div class="loader"></div>\n' + '      <span></span>\n' + '\n' + '      <div class="popup">\n' + '        <div class="arrow"></div>\n' + '        <div class="content">\n' + '          Octotree is enabled on this page. Click this button or press\n' + '          <kbd>cmd shift s</kbd> (or <kbd>ctrl shift s</kbd>)\n' + '          to show it.\n' + '        </div>\n' + '      </div>\n' + '    </a>\n' + '\n' + '    <a class="octotree_opts" href="javascript:void(0)">\n' + '      <span></span>\n' + '    </a>\n' + '\n' + '    <div class="octotree_views">\n' + '      <div class="octotree_view octotree_treeview current">\n' + '        <div class="octoprime_links">\n' + '          <span>Test</span>\n' + '        </div>\n' + '\n' + '        <div class="octotree_view_header"></div>\n' + '        <div class="octotree_view_body"></div>\n' + '      </div>\n' + '\n' + '      <div class="octotree_view octotree_errorview">\n' + '        <div class="octotree_view_header"></div>\n' + '        <form class="octotree_view_body">\n' + '          <div class="message"></div>\n' + '          <div>\n' + '            <input name="token" type="text" placeholder="Paste access token here" autocomplete="off">\n' + '          </div>\n' + '          <div>\n' + '            <button type="submit" class="btn">Save</button>\n' + '            <a href="https://github.com/buunguyen/octotree#access-token" target="_blank" tabIndex="-1">Why is this required?</a>\n' + '          </div>\n' + '          <div class="error"></div>\n' + '        </form>\n' + '      </div>\n' + '\n' + '      <div class="octotree_view octotree_optsview">\n' + '        <div class="octotree_view_header">Settings</div>\n' + '        <form class="octotree_view_body">\n' + '          <div>\n' + '            <label>Site access token</label>\n' + '            <a class="octotree_help" href="https://github.com/buunguyen/octotree#settings" target="_blank" tabIndex="-1">\n' + '              <span></span>\n' + '            </a>\n' + '            <input type="text" data-store="TOKEN" data-perhost="true">\n' + '          </div>\n' + '\n' + '          <div>\n' + '            <div>\n' + '              <label>Hotkeys</label>\n' + '            </div>\n' + '            <input type="text" data-store="HOTKEYS">\n' + '          </div>\n' + '\n' + '          <div class="octotree_github_only">\n' + '            <div>\n' + '              <label>GitHub Enterprise URLs</label>\n' + '            </div>\n' + '            <textarea data-store="GHEURLS" placeholder="https://github.mysite1.com                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   https://github.mysite2.com">\n' + '            </textarea>\n' + '          </div>\n' + '          <div>\n' + '            <label><input type="checkbox" data-store="REMEMBER"> Remember sidebar visibility</label>\n' + '          </div>\n' + '\n' + '          <div>\n' + '            <label><input type="checkbox" data-store="NONCODE"> Show in non-code pages</label>\n' + '          </div>\n' + '\n' + '          <div class="octotree_github_only">\n' + '            <label><input type="checkbox" data-store="LOADALL"> Load entire tree at once</label>\n' + '          </div>\n' + '\n' + '          <div>\n' + '            <button type="submit" class="btn">Save</button>\n' + '          </div>\n' + '        </form>\n' + '      </div>\n' + '    </div>\n' + '  </nav>\n' + '</div>\n' + '';
+var TEMPLATE = '<div>\n' + '  <nav class="octotree_sidebar">\n' + '    <a class="octotree_toggle btn">\n' + '      <div class="loader"></div>\n' + '      <span></span>\n' + '\n' + '      <div class="popup">\n' + '        <div class="arrow"></div>\n' + '        <div class="content">\n' + '          Octotree is enabled on this page. Click this button or press\n' + '          <kbd>cmd shift s</kbd> (or <kbd>ctrl shift s</kbd>)\n' + '          to show it.\n' + '        </div>\n' + '      </div>\n' + '    </a>\n' + '\n' + '    <a class="octotree_opts" href="javascript:void(0)">\n' + '      <span></span>\n' + '    </a>\n' + '\n' + '    <div class="octoprime_links">\n' + '      <a class="octoprime_links_browse" href="javascript:void(0)">\n' + '        <span>Browse</span>\n' + '      </a>\n' + '      <a class="octoprime_links_contribute" href="javascript:void(0)">\n' + '        <span>Contribute</span>\n' + '      </a>\n' + '    </div>\n' + '\n' + '    <div class="octotree_views">\n' + '      <div class="octotree_view octotree_treeview current">\n' + '        <div class="octotree_view_header"></div>\n' + '        <div class="octotree_view_body"></div>\n' + '      </div>\n' + '\n' + '      <div class="octotree_view octotree_errorview">\n' + '        <div class="octotree_view_header"></div>\n' + '        <form class="octotree_view_body">\n' + '          <div class="message"></div>\n' + '          <div>\n' + '            <input name="token" type="text" placeholder="Paste access token here" autocomplete="off">\n' + '          </div>\n' + '          <div>\n' + '            <button type="submit" class="btn">Save</button>\n' + '            <a href="https://github.com/buunguyen/octotree#access-token" target="_blank" tabIndex="-1">Why is this required?</a>\n' + '          </div>\n' + '          <div class="error"></div>\n' + '        </form>\n' + '      </div>\n' + '\n' + '\n' + '      <div class="octotree_view octotree_issues_view">\n' + '        <div class="octotree_view_header"></div>\n' + '        <div class="octotree_view_body"></div>\n' + '      </div>\n' + '\n' + '      <div class="octotree_view octotree_optsview">\n' + '        <div class="octotree_view_header">Settings</div>\n' + '        <form class="octotree_view_body">\n' + '          <div>\n' + '            <label>Site access token</label>\n' + '            <a class="octotree_help" href="https://github.com/buunguyen/octotree#settings" target="_blank" tabIndex="-1">\n' + '              <span></span>\n' + '            </a>\n' + '            <input type="text" data-store="TOKEN" data-perhost="true">\n' + '          </div>\n' + '\n' + '          <div>\n' + '            <div>\n' + '              <label>Hotkeys</label>\n' + '            </div>\n' + '            <input type="text" data-store="HOTKEYS">\n' + '          </div>\n' + '\n' + '          <div class="octotree_github_only">\n' + '            <div>\n' + '              <label>GitHub Enterprise URLs</label>\n' + '            </div>\n' + '            <textarea data-store="GHEURLS" placeholder="https://github.mysite1.com                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   https://github.mysite2.com">\n' + '            </textarea>\n' + '          </div>\n' + '          <div>\n' + '            <label><input type="checkbox" data-store="REMEMBER"> Remember sidebar visibility</label>\n' + '          </div>\n' + '\n' + '          <div>\n' + '            <label><input type="checkbox" data-store="NONCODE"> Show in non-code pages</label>\n' + '          </div>\n' + '\n' + '          <div class="octotree_github_only">\n' + '            <label><input type="checkbox" data-store="LOADALL"> Load entire tree at once</label>\n' + '          </div>\n' + '\n' + '          <div>\n' + '            <button type="submit" class="btn">Save</button>\n' + '          </div>\n' + '        </form>\n' + '      </div>\n' + '    </div>\n' + '  </nav>\n' + '</div>\n' + '';
 'use strict';
 
 var NODE_PREFIX = 'octotree';
@@ -230,6 +230,64 @@ var Adapter = function () {
     }
 
     /**
+     * Loads the issues of a repo.
+     * @param {Object} opts: {
+     *                  repo: the current repository,
+     *                  token (optional): the personal access token
+     *                 }
+     * @param {Function} cb(err: error, tree: Array[Array|item])
+     */
+
+  }, {
+    key: '_loadIssues',
+    value: function _loadIssues(opts, cb) {
+      var _this2 = this;
+
+      var login_handle = this._getLoginUser();
+
+      var post_process = function post_process(err, issues) {
+        if (err) return cb(err);
+
+        issues.forEach(function (issue, index) {
+          var is_user_assigned = false;
+          issue.assignees.forEach(function (assignee) {
+            if (assignee.login === login_handle) is_user_assigned = true;
+          });
+
+          issues[index].is_user_assigned = is_user_assigned;
+        });
+
+        cb(null, issues);
+      };
+
+      if (this.canLoadIssueComments()) this._getIssues(opts, post_process);else {
+        this._getIssues(opts, function (err, issues) {
+          if (err) return post_process(err);
+
+          parallel(issues, function (item, cb_inner, index) {
+            _this2._getIssueReactions(item.number, opts, function (err, reactions) {
+              //console.log('woah', item.number, reactions)
+              var positive = 0,
+                  negative = 0,
+                  neutral = 0,
+                  my_reaction = null;
+              reactions.forEach(function (item) {
+                if (item.content === '+1' || item.content === 'laugh' || item.content === 'heart' || item.content === 'hooray') positive++;else if (item.content === '-1') negative++;else neutral++;
+
+                if (item.user.login === login_handle) my_reaction = item;
+              });
+
+              issues[index].reactions = { positive: positive, negative: negative, neutral: neutral, actual: reactions, user_reaction: my_reaction };
+              cb_inner();
+            });
+          }, function () {
+            return post_process(null, issues);
+          });
+        });
+      }
+    }
+
+    /**
      * Inits behaviors after the sidebar is added to the DOM.
      * @api public
      */
@@ -275,6 +333,18 @@ var Adapter = function () {
     }
 
     /**
+     * Returns whether the adapter is capable of loading the issue comments in
+     * a single request. This is usually determined by the underlying API.
+     * @api public
+     */
+
+  }, {
+    key: 'canLoadIssueComments',
+    value: function canLoadIssueComments() {
+      return false;
+    }
+
+    /**
      * Loads the code tree.
      * @api public
      */
@@ -282,6 +352,17 @@ var Adapter = function () {
   }, {
     key: 'loadCodeTree',
     value: function loadCodeTree(opts, cb) {
+      throw new Error('Not implemented');
+    }
+
+    /**
+     * Loads the issues.
+     * @api public
+     */
+
+  }, {
+    key: 'loadIssues',
+    value: function loadIssues(opts, cb) {
       throw new Error('Not implemented');
     }
 
@@ -378,6 +459,57 @@ var Adapter = function () {
     }
 
     /**
+     * Gets issues for repo.
+     * @param {Object} opts - {token, repo}
+     * @api protected
+     */
+
+  }, {
+    key: '_getIssues',
+    value: function _getIssues(opts, cb) {
+      throw new Error('Not implemented');
+    }
+
+    /**
+     * Get issue comments.
+     * @param {int} issue_id
+     * @param {Object} opts - {token, repo}
+     * @api protected
+     */
+
+  }, {
+    key: '_getIssueComments',
+    value: function _getIssueComments(issue_id, opts, cb) {
+      throw new Error('Not implemented');
+    }
+
+    /**
+     * Get issue reactions.
+     * @param {int} issue_id
+     * @param {Object} opts - {token, repo}
+     * @api protected
+     */
+
+  }, {
+    key: '_getIssueReactions',
+    value: function _getIssueReactions(issue_id, opts, cb) {
+      throw new Error('Not implemented');
+    }
+
+    /**
+     * Get issue events.
+     * @param {int} issue_id
+     * @param {Object} opts - {token, repo}
+     * @api protected
+     */
+
+  }, {
+    key: '_getIssueEvents',
+    value: function _getIssueEvents(issue_id, opts, cb) {
+      throw new Error('Not implemented');
+    }
+
+    /**
      * Gets submodules in the tree.
      * @param {Object} opts - {token, repo, encodedBranch}
      * @api protected
@@ -399,6 +531,17 @@ var Adapter = function () {
     value: function _getItemHref(repo, type, encodedPath) {
       return '/' + repo.username + '/' + repo.reponame + '/' + type + '/' + repo.branch + '/' + encodedPath;
     }
+
+    /**
+     * Returns user handle for logged in user.
+     * @api protected
+     */
+
+  }, {
+    key: '_getLoginUser',
+    value: function _getLoginUser() {
+      throw new Error('Not implemented');
+    }
   }]);
 
   return Adapter;
@@ -410,7 +553,7 @@ var PjaxAdapter = function (_Adapter) {
   function PjaxAdapter() {
     _classCallCheck(this, PjaxAdapter);
 
-    var _this2 = _possibleConstructorReturn(this, (PjaxAdapter.__proto__ || Object.getPrototypeOf(PjaxAdapter)).call(this, ['jquery.pjax.js']));
+    var _this3 = _possibleConstructorReturn(this, (PjaxAdapter.__proto__ || Object.getPrototypeOf(PjaxAdapter)).call(this, ['jquery.pjax.js']));
 
     $.pjax.defaults.timeout = 0; // no timeout
     $(document).on('pjax:send', function () {
@@ -418,7 +561,7 @@ var PjaxAdapter = function (_Adapter) {
     }).on('pjax:end', function () {
       return $(document).trigger(EVENT.REQ_END);
     });
-    return _this2;
+    return _this3;
   }
 
   // @override
@@ -829,6 +972,14 @@ var GitHub = function (_PjaxAdapter) {
     // @override
 
   }, {
+    key: '_getLoginUser',
+    value: function _getLoginUser() {
+      return $('meta[name=user-login]').attr("content");
+    }
+
+    // @override
+
+  }, {
     key: 'getCssClass',
     value: function getCssClass() {
       return 'octotree_github_sidebar';
@@ -937,6 +1088,14 @@ var GitHub = function (_PjaxAdapter) {
     // @override
 
   }, {
+    key: 'loadIssues',
+    value: function loadIssues(opts, cb) {
+      this._loadIssues(opts, cb);
+    }
+
+    // @override
+
+  }, {
     key: 'loadCodeTree',
     value: function loadCodeTree(opts, cb) {
       opts.encodedBranch = encodeURIComponent(decodeURIComponent(opts.repo.branch));
@@ -951,6 +1110,47 @@ var GitHub = function (_PjaxAdapter) {
     value: function _getTree(path, opts, cb) {
       this._get('/git/trees/' + path, opts, function (err, res) {
         if (err) cb(err);else cb(null, res.tree);
+      });
+    }
+
+    // @override
+
+  }, {
+    key: '_getIssues',
+    value: function _getIssues(opts, cb) {
+      this._get('/issues', opts, function (err, res) {
+        if (err) cb(err);else cb(null, res);
+      });
+    }
+
+    // @override
+
+  }, {
+    key: '_getIssueComments',
+    value: function _getIssueComments(issue_id, opts, cb) {
+      this._get('/issues/' + issue_id + '/comments', opts, function (err, res) {
+        if (err) cb(err);else cb(null, res);
+      });
+    }
+
+    // @override
+
+  }, {
+    key: '_getIssueReactions',
+    value: function _getIssueReactions(issue_id, opts, cb) {
+      opts.media_type = 'application/vnd.github.squirrel-girl-preview';
+      this._get('/issues/' + issue_id + '/reactions', opts, function (err, res) {
+        if (err) cb(err);else cb(null, res);
+      });
+    }
+
+    // @override
+
+  }, {
+    key: '_getIssueEvents',
+    value: function _getIssueEvents(issue_id, opts, cb) {
+      this._get('/issues/' + issue_id + '/events', opts, function (err, res) {
+        if (err) cb(err);else cb(null, res);
       });
     }
 
@@ -978,10 +1178,14 @@ var GitHub = function (_PjaxAdapter) {
 
       var host = location.protocol + '//' + (location.host === 'github.com' ? 'api.github.com' : location.host + '/api/v3');
       var url = host + '/repos/' + opts.repo.username + '/' + opts.repo.reponame + (path || '');
-      var cfg = { url: url, method: 'GET', cache: false };
+      var cfg = { url: url, method: 'GET', cache: false, headers: {} };
 
       if (opts.token) {
         cfg.headers = { Authorization: 'token ' + opts.token };
+      }
+
+      if (opts.media_type) {
+        cfg.headers.Accept = opts.media_type;
       }
 
       $.ajax(cfg).done(function (data) {
@@ -1317,6 +1521,87 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var IssueView = function () {
+  function IssueView($dom, store, adapter) {
+    _classCallCheck(this, IssueView);
+
+    this.store = store;
+    this.adapter = adapter;
+    this.$view = $dom.find('.octotree_issues_view');
+    this.$panel = this.$view.find('.octotree_view_body').on('click', '.issue_button_like', this._onLikeClick.bind(this)).on('click', '.issue_button_volunteer', this._onVolunteerClick.bind(this));
+    this.$hideIssueLink = $dom.find('.octoprime_links_browse').click(this._hide.bind(this));
+    this.$showIssueLink = $dom.find('.octoprime_links_contribute').click(this._show.bind(this));
+  }
+
+  _createClass(IssueView, [{
+    key: '_show',
+    value: function _show() {
+      $(this).trigger(EVENT.VIEW_READY);
+    }
+  }, {
+    key: '_hide',
+    value: function _hide() {
+      $(this).trigger(EVENT.VIEW_CLOSE);
+    }
+  }, {
+    key: '_showHeader',
+    value: function _showHeader(repo) {
+      var adapter = this.adapter;
+
+      this.$view.find('.octotree_view_header').html('<div class="octotree_header_repo">' + '<a href="/' + repo.username + '">' + repo.username + '</a>' + ' / ' + '<a data-pjax href="/' + repo.username + '/' + repo.reponame + '">' + repo.reponame + '</a>' + '</div>' + '<div class="octotree_header_branch">' + "Issues" + '</div>').on('click', 'a[data-pjax]', function (event) {
+        event.preventDefault();
+        var href = $(this).attr('href'); /* a.href always return absolute URL, don't want that */
+        var newTab = event.shiftKey || event.ctrlKey || event.metaKey;
+        newTab ? adapter.openInNewTab(href) : adapter.selectFile(href);
+      });
+    }
+  }, {
+    key: 'load',
+    value: function load(repo, token) {
+      var _this = this;
+
+      this._showHeader(repo);
+
+      this.adapter.loadIssues({ repo: repo, token: token }, function (err, treeData) {
+        if (err) {
+          $(_this).trigger(EVENT.FETCH_ERROR, [err]);
+        } else {
+          var content = '<ul class=\'issues_list\'>';
+          console.log('here', treeData);
+          treeData.forEach(function (item) {
+            content += '<li>' + _this._issueHtml(item) + '</li>';
+          });
+          content += '</ul>';
+          _this.$panel.html(content);
+        }
+      });
+    }
+  }, {
+    key: '_issueHtml',
+    value: function _issueHtml(issue) {
+      return '<div class=\'issue_entry\' data-id=\'' + issue.number + '\'>' + '<div class=\'issue_title\'>' + '<a href=\'' + issue.url + '\'>' + issue.title + '</a></div>' + '<div class=\'issue_buttons\'>' + '<div class=\'issue_button issue_button_like' + (issue.reactions.user_reaction ? ' reacted' : '') + '\'>' + '<span class=\'issue_button_counter issue_button_like_count\'>' + issue.reactions.positive + '</span>' + '</div>' + '<div class=\'issue_button issue_button_volunteer' + (issue.is_user_assigned ? ' reacted' : '') + '\'>' + '<span class=\'issue_button_counter issue_button_volunteer_count\'>' + issue.assignees.length + '</span>' + '</div></div></div>';
+    }
+  }, {
+    key: '_onLikeClick',
+    value: function _onLikeClick(event) {
+      var $target = $(event.target);
+      var issueId = $target.closest('.issue_entry').data('id');
+    }
+  }, {
+    key: '_onVolunteerClick',
+    value: function _onVolunteerClick(event) {
+      var $target = $(event.target);
+    }
+  }]);
+
+  return IssueView;
+}();
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 var OptionsView = function () {
   function OptionsView($dom, store) {
     var _this = this;
@@ -1463,8 +1748,8 @@ function parallel(arr, iter, done) {
   var total = arr.length;
   if (total === 0) return done();
 
-  arr.forEach(function (item) {
-    iter(item, finish);
+  arr.forEach(function (item, index) {
+    iter(item, finish, index);
   });
 
   function finish() {
@@ -1571,6 +1856,7 @@ $(document).ready(function () {
     var $views = $sidebar.find('.octotree_view');
     var adapter = createAdapter();
     var treeView = new TreeView($dom, store, adapter);
+    var issuesView = new IssueView($dom, store, adapter);
     var optsView = new OptionsView($dom, store);
     var helpPopup = new HelpPopup($dom, store);
     var errorView = new ErrorView($dom, store);
@@ -1589,7 +1875,7 @@ $(document).ready(function () {
     };
     key(store.get(STORE.HOTKEYS), toggleSidebarAndSave);
 
-    var views = [treeView, errorView, optsView];
+    var views = [treeView, errorView, optsView, issuesView];
     views.forEach(function (view) {
       $(view).on(EVENT.VIEW_READY, function (event) {
         if (this !== optsView) {
@@ -1664,6 +1950,7 @@ $(document).ready(function () {
               $document.trigger(EVENT.REQ_START);
               currRepo = repo;
               treeView.show(repo, token);
+              issuesView.load(repo, token);
             } else {
               treeView.syncSelection();
             }

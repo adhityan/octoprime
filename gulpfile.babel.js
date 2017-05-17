@@ -182,6 +182,7 @@ function buildJs(overrides, ctx) {
     './src/view.help.js',
     './src/view.error.js',
     './src/view.tree.js',
+    './src/view.issue.js',
     './src/view.options.js',
     './src/util.location.js',
     './src/util.module.js',

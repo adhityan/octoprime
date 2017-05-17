@@ -17,7 +17,6 @@ const GH_CONTAINERS = '.container, .container-responsive'
 const GH_RAW_CONTENT = 'body > pre'
 
 class GitHub extends PjaxAdapter {
-
   constructor() {
     super(['jquery.pjax.js'])
   }
@@ -44,6 +43,11 @@ class GitHub extends PjaxAdapter {
       attributeFilter: ['class'],
       attributeOldValue: true
     })
+  }
+
+  // @override
+  _getLoginUser() {
+    return $('meta[name=user-login]').attr("content");
   }
 
   // @override
@@ -138,10 +142,15 @@ class GitHub extends PjaxAdapter {
   }
 
   // @override
+  loadIssues(opts, cb) {
+    this._loadIssues(opts, cb)
+  }
+
+  // @override
   loadCodeTree(opts, cb) {
     opts.encodedBranch = encodeURIComponent(decodeURIComponent(opts.repo.branch))
     opts.path = (opts.node && (opts.node.sha || opts.encodedBranch)) ||
-                (opts.encodedBranch + '?recursive=1')
+      (opts.encodedBranch + '?recursive=1')
     this._loadCodeTree(opts, null, cb)
   }
 
@@ -150,6 +159,39 @@ class GitHub extends PjaxAdapter {
     this._get(`/git/trees/${path}`, opts, (err, res) => {
       if (err) cb(err)
       else cb(null, res.tree)
+    })
+  }
+
+  // @override
+  _getIssues(opts, cb) {
+    this._get(`/issues`, opts, (err, res) => {
+      if (err) cb(err)
+      else cb(null, res)
+    })
+  }
+
+  // @override
+  _getIssueComments(issue_id, opts, cb) {
+    this._get(`/issues/${issue_id}/comments`, opts, (err, res) => {
+      if (err) cb(err)
+      else cb(null, res)
+    })
+  }
+
+  // @override
+  _getIssueReactions(issue_id, opts, cb) {
+    opts.media_type = 'application/vnd.github.squirrel-girl-preview'
+    this._get(`/issues/${issue_id}/reactions`, opts, (err, res) => {
+      if (err) cb(err)
+      else cb(null, res)
+    })
+  }
+
+  // @override
+  _getIssueEvents(issue_id, opts, cb) {
+    this._get(`/issues/${issue_id}/events`, opts, (err, res) => {
+      if (err) cb(err)
+      else cb(null, res)
     })
   }
 
@@ -169,10 +211,14 @@ class GitHub extends PjaxAdapter {
     const host = location.protocol + '//' +
       (location.host === 'github.com' ? 'api.github.com' : (location.host + '/api/v3'))
     const url = `${host}/repos/${opts.repo.username}/${opts.repo.reponame}${path || ''}`
-    const cfg  = { url, method: 'GET', cache: false }
+    const cfg  = { url, method: 'GET', cache: false, headers: {} }
 
     if (opts.token) {
       cfg.headers = { Authorization: 'token ' + opts.token }
+    }
+
+    if(opts.media_type) {
+      cfg.headers.Accept = opts.media_type
     }
 
     $.ajax(cfg)

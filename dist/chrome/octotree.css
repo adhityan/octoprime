@@ -282,6 +282,83 @@ a.octotree_toggle .popup > .content {
     display: none;
   }
 }
+.octoprime_links {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.octotree_issues_view .octotree_view_header {
+  padding-left: 13px;
+}
+.octotree_issues_view .octotree_header_repo,
+.octotree_issues_view .octotree_header_branch {
+  width: 100%;
+  padding-right: 55px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.octotree_issues_view .octotree_header_repo {
+  font-weight: bold;
+}
+.octotree_issues_view .octotree_header_repo:before {
+  color: #bbb;
+  margin-right: 6px;
+  line-height: 28px;
+}
+.octotree_issues_view .octotree_header_branch {
+  line-height: 1;
+  margin-top: -10px;
+  margin-bottom: 5px;
+  margin-left: -1px;
+  font-size: 12px;
+  margin-top: -6px;
+  font-size: 13px;
+}
+.octotree_issues_view .octotree_header_branch:before {
+  margin-right: 8px;
+  margin-left: 3px;
+}
+.octotree_issues_view .issues_list {
+  list-style: none;
+}
+.octotree_issues_view .issues_list li {
+  list-style: none;
+  padding: 5px 10px;
+}
+.octotree_issues_view .issues_list li .issue_entry {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: row;
+      flex-flow: row;
+}
+.octotree_issues_view .issue_title {
+  -ms-flex: 1 100%;
+      flex: 1 100%;
+}
+.octotree_issues_view .issue_title a {
+  text-overflow: ellipsis;
+}
+.octotree_issues_view .issue_buttons {
+  -ms-flex: 1 75px;
+      flex: 1 75px;
+  -ms-flex-line-pack: right;
+      align-content: right;
+}
+.octotree_issues_view .issue_buttons .issue_button {
+  border: solid 1px grey;
+  cursor: hand;
+}
+.octotree_issues_view .issue_buttons .issue_button:hover {
+  background: green;
+  color: white;
+}
+.octotree_issues_view .issue_buttons .issue_button_like {
+  display: inline-block;
+}
+.octotree_issues_view .issue_buttons .issue_button_volunteer {
+  margin-left: 5px;
+  display: inline-block;
+}
 .octotree-show .octotree_bitbucket_only {
   display: none;
 }
@@ -506,6 +583,18 @@ a.octotree_toggle .popup > .content {
 }
 .octotree_github_sidebar .octotree_views .octotree_treeview .jstree-default .jstree-wholerow-clicked {
   background: #dbeeff;
+}
+.octotree_github_sidebar .octotree_views .octotree_issues_view .octotree_header_repo {
+  font-size: 13px;
+  font-weight: normal;
+}
+.octotree_github_sidebar .octotree_views .octotree_issues_view .octotree_header_repo:before {
+  position: relative;
+  top: 2px;
+  content: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20style%3D%22fill%3A%20%23959da5%3B%22%20viewBox%3D%220%200%2012%2016%22%20height%3D%2213%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%3Cpath%20d%3D%22M4%209h-1v-1h1v1z%20m0-3h-1v1h1v-1z%20m0-2h-1v1h1v-1z%20m0-2h-1v1h1v-1z%20m8-1v12c0%200.55-0.45%201-1%201H6v2l-1.5-1.5-1.5%201.5V14H1c-0.55%200-1-0.45-1-1V1C0%200.45%200.45%200%201%200h10c0.55%200%201%200.45%201%201z%20m-1%2010H1v2h2v-1h3v1h5V11z%20m0-10H2v9h9V1z%22%20%2F%3E%0A%3C%2Fsvg%3E%0A");
+}
+.octotree_github_sidebar .octotree_views .octotree_issues_view .octotree_header_branch {
+  font-size: 11px;
 }
 .octotree_github_sidebar a.octotree_toggle,
 .octotree_github_sidebar a.octotree_opts {

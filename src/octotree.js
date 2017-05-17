@@ -36,6 +36,7 @@ $(document).ready(() => {
     const $views = $sidebar.find('.octotree_view')
     const adapter = createAdapter()
     const treeView = new TreeView($dom, store, adapter)
+    const issuesView = new IssueView($dom, store, adapter)
     const optsView = new OptionsView($dom, store)
     const helpPopup = new HelpPopup($dom, store)
     const errorView = new ErrorView($dom, store)
@@ -52,7 +53,7 @@ $(document).ready(() => {
     key.filter = () => $toggler.is(':visible')
     key(store.get(STORE.HOTKEYS), toggleSidebarAndSave)
 
-    const views = [treeView, errorView, optsView]
+    const views = [treeView, errorView, optsView, issuesView]
     views.forEach((view) => {
       $(view)
         .on(EVENT.VIEW_READY, function (event) {
@@ -130,6 +131,7 @@ $(document).ready(() => {
               $document.trigger(EVENT.REQ_START)
               currRepo = repo
               treeView.show(repo, token)
+              issuesView.load(repo, token)
             }
             else {
               treeView.syncSelection()
