@@ -84,12 +84,13 @@ class IssueView {
     const $target = $(event.target)
     const issueId = $target.closest('.issue_entry').data('id')
     const has_reacted = $target.hasClass('issue_button_like_reacted')
+    console.log('yo', issueId, has_reacted, $target)
 
     if(has_reacted) {
-      $target.removeClass('reacted')
+      $target.removeClass('issue_button_like_reacted')
     }
     else {
-      $target.addClass('reacted')
+      $target.addClass('issue_button_like_reacted')
     }
   }
 
@@ -99,10 +100,10 @@ class IssueView {
     const has_reacted = $target.hasClass('issue_button_volunteer_reacted')
 
     if(has_reacted) {
-      $target.removeClass('reacted')
+      $target.removeClass('issue_button_volunteer_reacted')
     }
     else {
-      $target.addClass('reacted')
+      $target.addClass('issue_button_volunteer_reacted')
     }
   }
 }
