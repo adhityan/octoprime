@@ -250,6 +250,14 @@ class GitHub extends PjaxAdapter {
     })
   }
 
+  // @override
+  _addIssue(title, opts, cb) {
+    this._post(`/issues`, {title:title}, opts, (err, res) => {
+      if (err) cb(err)
+      else cb(null, res)
+    })
+  }
+
   _get(path, opts, cb) {
     const host = location.protocol + '//' + (location.host === 'github.com' ? 'api.github.com' : (location.host + '/api/v3'))
 

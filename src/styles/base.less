@@ -305,6 +305,10 @@ a.octotree_toggle {
   }
 
   &_contribute {
+    &_counter {
+      display: inline-block;
+      text-align: center;
+    }
   }
 
   &_act{
@@ -456,6 +460,18 @@ a.octotree_toggle {
         }
       }
     }
+  }
 
+  .issues_add_panel  {
+    display: flex;
+    flex-flow: row;
+    margin-top: 10px;
+
+    &_text {
+      flex: 1 100%;
+    }
+    &_submit {
+      flex: 1 100px;
+    }
   }
 }

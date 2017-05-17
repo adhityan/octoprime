@@ -466,6 +466,33 @@ class Adapter {
   unAssignMeFromIssue(issue_id, opts, cb) {
     throw new Error('Not implemented')
   }
+
+  /**
+   * Add new issue.
+   * @param {string} title
+   * @param {Object} opts - {token, repo}
+   * @api protected
+   */
+  _addIssue(title, opts, cb) {
+    throw new Error('Not implemented')
+  }
+
+  addIssue(title, opts, cb) {
+    this._addIssue(title, opts, (err, issue) => {
+      if (err) return cb(err)
+
+      this.addIssueReaction(issue.number, 'heart', opts, (err, reaction) => {
+        if (err) return cb(err)
+
+        let url = issue.html_url
+        if (url.indexOf('github.com') !== 0) url = url.replace(window.location.protocol + '//github.com', '')
+        issue.reactions = { positive: 1, negative: 0, neutral: 0, actual: [reaction], user_reaction: reaction }
+        issue.html_url = url
+        issue.is_user_assigned = false
+        cb(null, issue)
+      })
+    })
+  }
 }
 
 class PjaxAdapter extends Adapter {
@@ -477,7 +504,6 @@ class PjaxAdapter extends Adapter {
       .on('pjax:send', () => $(document).trigger(EVENT.REQ_START))
       .on('pjax:end', () => $(document).trigger(EVENT.REQ_END))
   }
-
 
   // @override
   // @param {Object} opts - {pjaxContainer: the specified pjax container}

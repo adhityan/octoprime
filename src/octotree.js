@@ -135,6 +135,7 @@ $(document).ready(() => {
             }
             else {
               treeView.syncSelection()
+              issuesView.syncSelection()
             }
           }
         }

@@ -7,8 +7,12 @@ class IssueView {
       .on('click', '.issue_button_like', this._onLikeClick.bind(this))
       .on('click', '.issue_button_volunteer', this._onVolunteerClick.bind(this))
       .on('click', '.issue-anchor', this._onIssueClick.bind(this))
+      .on('click', '.issues_add_panel_submit', this._addNewIssue.bind(this))
+      .on('input', '.issues_add_panel_text', this._newIssueTextChange.bind(this))
     this.$hideIssueLink = $dom.find('.octoprime_links_browse').click(this._hide.bind(this))
     this.$showIssueLink = $dom.find('.octoprime_links_contribute').click(this._show.bind(this))
+    this.$contributeCounter = $dom.find('.octoprime_links_contribute_counter').click(this._show.bind(this))
+    this.$contributeCounter.hide()
   }
 
   _show() {
@@ -54,9 +58,11 @@ class IssueView {
       if (err) $(this).trigger(EVENT.FETCH_ERROR, [err])
       else {
         issues = this._sort(issues)
+        this.$contributeCounter.text(issues.length)
+        this.$contributeCounter.show()
 
         let content = '<ul class=\'issues_list\'>'
-        console.log('here', issues)
+        //console.log('here', issues)
 
         issues.forEach((item) => {
           content += '<li>'
@@ -64,6 +70,10 @@ class IssueView {
                   +  '</li>'
         })
         content += '</ul>'
+                +  '<div class=\'issues_add_panel\'>'
+                +  '<input type=\'text\' class=\'issues_add_panel_text\' />'
+                +  '<button disabled class=\'issues_add_panel_submit\'>Submit</button>'
+                +  '</div>'
         this.$panel.html(content)
       }
     })
@@ -158,7 +168,7 @@ class IssueView {
   }
 
   _onIssueClick(event) {
-    const $target = $(event.target)
+    const $target = $(event.currentTarget)
     if (!$target.is('a.issue-anchor')) return
 
     // handle middle click
@@ -177,5 +187,54 @@ class IssueView {
 
     refocusAfterCompletion()
     newTab ? adapter.openInNewTab(href) : adapter.selectFile(href)
+  }
+
+  _newIssueTextChange(event) {
+    const $target = $(event.currentTarget)
+    const $button = $target.parent().children('.issues_add_panel_submit')
+
+    if($target.val().length > 0) $button.attr('disabled', false)
+    else $button.attr('disabled', true)
+  }
+
+  _addNewIssue(event) {
+    const $target = $(event.currentTarget)
+    const $textfield = $target.parent().children('.issues_add_panel_text')
+    $target.attr('disabled', true)
+
+    this.adapter.addIssue($textfield.val(), {repo: this.repo, token: this.token}, (err, issue) => {
+      if (err) {
+        $target.attr('disabled', false)
+        return
+      }
+
+      const content = '<li>' + this._issueHtml(issue) + '</li>'
+      this.$panel.find('.issues_list').append(content)
+      $textfield.val('')
+    })
+  }
+
+  syncSelection() {
+    this.adapter.loadIssues({repo: this.repo, token: this.token}, (err, issues) => {
+      if (!err) {
+        issues = this._sort(issues)
+        this.$contributeCounter.text(issues.length)
+
+        let content = '<ul class=\'issues_list\'>'
+        //console.log('here', issues)
+
+        issues.forEach((item) => {
+          content += '<li>'
+            +  this._issueHtml(item)
+            +  '</li>'
+        })
+        content += '</ul>'
+          +  '<div class=\'issues_add_panel\'>'
+          +  '<input type=\'text\' class=\'issues_add_panel_text\' />'
+          +  '<button disabled class=\'issues_add_panel_submit\'>Submit</button>'
+          +  '</div>'
+        this.$panel.html(content)
+      }
+    })
   }
 }
