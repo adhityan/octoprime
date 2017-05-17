@@ -6,6 +6,7 @@ class IssueView {
     this.$panel = this.$view.find('.octotree_view_body')
       .on('click', '.issue_button_like', this._onLikeClick.bind(this))
       .on('click', '.issue_button_volunteer', this._onVolunteerClick.bind(this))
+      .on('click', '.issue-anchor', this._onIssueClick.bind(this))
     this.$hideIssueLink = $dom.find('.octoprime_links_browse').click(this._hide.bind(this))
     this.$showIssueLink = $dom.find('.octoprime_links_contribute').click(this._show.bind(this))
   }
@@ -55,7 +56,7 @@ class IssueView {
         issues = this._sort(issues)
 
         let content = '<ul class=\'issues_list\'>'
-        //console.log('here', issues)
+        console.log('here', issues)
 
         issues.forEach((item) => {
           content += '<li>'
@@ -78,7 +79,7 @@ class IssueView {
   _issueHtml(issue) {
     return '<div class=\'issue_entry\' data-id=\'' + issue.number + '\'>'
           +'<div class=\'issue_title\'>'
-          +'<a href=\'' + issue.url + '\'>'
+          +'<a class=\'issue-anchor\' data-href=\'' + issue.html_url + '\'>'
           +issue.title
           +'</a></div>'
           +'<div class=\'issue_buttons\'>'
@@ -154,5 +155,27 @@ class IssueView {
         $target.addClass('issue_button_volunteer_reacted')
       })
     }
+  }
+
+  _onIssueClick(event) {
+    const $target = $(event.target)
+    if (!$target.is('a.issue-anchor')) return
+
+    // handle middle click
+    if (event.which === 2) return
+
+    // refocus after complete so that keyboard navigation works, fix #158
+    const refocusAfterCompletion = () => {
+      $(document).one('pjax:success page:load', () => {
+        this.$panel.focus()
+      })
+    }
+
+    const adapter = this.adapter
+    const newTab = event.shiftKey || event.ctrlKey || event.metaKey
+    const href = $target.data('href')
+
+    refocusAfterCompletion()
+    newTab ? adapter.openInNewTab(href) : adapter.selectFile(href)
   }
 }

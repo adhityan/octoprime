@@ -197,6 +197,9 @@ class Adapter {
           if(assignee.login === login_handle) is_user_assigned = true
         })
 
+        let url = issue.html_url
+        if (url.indexOf('github.com') !== 0) url = url.replace(window.location.protocol + '//github.com', '')
+        issues[index].html_url = url
         issues[index].is_user_assigned = is_user_assigned
       })
 
@@ -464,7 +467,6 @@ class Adapter {
     throw new Error('Not implemented')
   }
 }
-
 
 class PjaxAdapter extends Adapter {
   constructor() {
