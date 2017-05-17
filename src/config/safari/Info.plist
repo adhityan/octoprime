@@ -3,13 +3,13 @@
 <plist version="1.0">
 	<dict>
 		<key>Author</key>
-		<string>Buu Nguyen</string>
+		<string>Adhityan</string>
 		<key>Builder Version</key>
 		<string>9537.75.14</string>
 		<key>CFBundleDisplayName</key>
-		<string>octotree</string>
+		<string>octoprime</string>
 		<key>CFBundleIdentifier</key>
-		<string>com.buunguyen.octotree</string>
+		<string>com.opentable.octotree</string>
 		<key>CFBundleInfoDictionaryVersion</key>
 		<string>6.0</string>
 		<key>CFBundleShortVersionString</key>
@@ -44,7 +44,7 @@
 			</array>
 		</dict>
 		<key>Description</key>
-		<string>Code tree for GitHub</string>
+		<string>Super addon for GitHub</string>
 		<key>ExtensionInfoDictionaryVersion</key>
 		<string>1.0</string>
 		<key>Permissions</key>
@@ -63,6 +63,6 @@
 			</dict>
 		</dict>
 		<key>Website</key>
-		<string>https://github.com/buunguyen/octotree</string>
+		<string>https://github.com/adhityan/octotree</string>
 	</dict>
 </plist>
