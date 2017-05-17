@@ -1196,6 +1196,31 @@ var GitHub = function (_PjaxAdapter) {
         return _this3._handleError(jqXHR, cb);
       });
     }
+  }, {
+    key: '_post',
+    value: function _post(path, params, opts, cb) {
+      var _this4 = this;
+
+      var host = location.protocol + '//' + (location.host === 'github.com' ? 'api.github.com' : location.host + '/api/v3');
+      var url = host + '/repos/' + opts.repo.username + '/' + opts.repo.reponame + (path || '');
+      var cfg = { url: url, method: 'POST', cache: false, headers: {} };
+
+      if (opts.token) {
+        cfg.headers = { Authorization: 'token ' + opts.token };
+      }
+
+      if (opts.media_type) {
+        cfg.headers.Accept = opts.media_type;
+      }
+
+      $.ajax(cfg).done(function (data) {
+        if (path && path.indexOf('/git/trees') === 0 && data.truncated) {
+          _this4._handleError({ status: 206 }, cb);
+        } else cb(null, data);
+      }).fail(function (jqXHR) {
+        return _this4._handleError(jqXHR, cb);
+      });
+    }
   }]);
 
   return GitHub;

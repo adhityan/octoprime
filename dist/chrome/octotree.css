@@ -290,6 +290,9 @@ a.octotree_toggle .popup > .content {
   font-size: 13px;
   display: inline-block;
 }
+.octoprime_links_link:hover {
+  text-decoration: none;
+}
 .octoprime_links_act {
   background-color: #dddddd;
   border-radius: 30px;
@@ -328,6 +331,7 @@ a.octotree_toggle .popup > .content {
 }
 .octotree_issues_view .issues_list {
   list-style: none;
+  padding: 5px 0px;
 }
 .octotree_issues_view .issues_list li {
   list-style: none;
@@ -347,28 +351,29 @@ a.octotree_toggle .popup > .content {
   text-overflow: ellipsis;
 }
 .octotree_issues_view .issue_buttons {
-  -ms-flex: 1 75px;
-      flex: 1 75px;
-  -ms-flex-line-pack: right;
-      align-content: right;
+  -ms-flex: 1 85px;
+      flex: 1 85px;
+  text-align: right;
 }
 .octotree_issues_view .issue_buttons .issue_button {
-  border: solid 1px grey;
-  cursor: hand;
-}
-.octotree_issues_view .issue_buttons .issue_button:hover {
-  background: green;
-  color: white;
+  display: inline-block;
+  cursor: pointer;
 }
 .octotree_issues_view .issue_buttons .issue_button_like {
-  display: inline-block;
+  background: url("data:image/svg+xml;charset=UTF-8,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3Csvg%20width%3D%2217px%22%20height%3D%2216px%22%20viewBox%3D%220%200%2017%2016%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E%0A%20%20%20%20%3C!--%20Generator%3A%20Sketch%2042%20(36781)%20-%20http%3A%2F%2Fwww.bohemiancoding.com%2Fsketch%20--%3E%0A%20%20%20%20%3Ctitle%3Elike-icon%3C%2Ftitle%3E%0A%20%20%20%20%3Cdesc%3ECreated%20with%20Sketch.%3C%2Fdesc%3E%0A%20%20%20%20%3Cdefs%3E%3C%2Fdefs%3E%0A%20%20%20%20%3Cg%20id%3D%22Page-1%22%20stroke%3D%22none%22%20stroke-width%3D%221%22%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%0A%20%20%20%20%20%20%20%20%3Cg%20id%3D%22Artboard%22%20transform%3D%22translate(-273.000000%2C%20-104.000000)%22%20stroke%3D%22%2343484D%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cg%20id%3D%22like-icon%22%20transform%3D%22translate(274.000000%2C%20105.000000)%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M0%2C5.72449155%20C0%2C5.49346948%200.224734848%2C5.15024719%200.446309363%2C5.15024719%20L4.28155001%2C5.15024719%20C4.50452911%2C5.15024719%204.56492661%2C5.49530883%204.56492661%2C5.72449155%20L4.56492661%2C13.5608486%20C4.56492661%2C13.7918706%204.50347567%2C13.9791162%204.28155001%2C13.9791162%20L0.446309363%2C13.9791162%20C0.223330255%2C13.9791162%200%2C13.7900313%200%2C13.5608486%20L0%2C5.72449155%20L0%2C5.72449155%20Z%22%20id%3D%22Stroke-70%22%3E%3C%2Fpath%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M10.1832978%2C4.41443453%20L14.5277033%2C4.41443453%20C15.0421355%2C4.41443453%2015.4958189%2C5.7954168%2015.3932837%2C6.30123742%20C15.3932837%2C6.30123742%2014.1505702%2C11.564347%2013.8485827%2C12.382121%20C13.5462441%2C13.199895%2012.5345862%2C13.2433036%2012.3175766%2C13.2433036%20L11.5878906%2C13.2433036%22%20id%3D%22Stroke-72%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22bevel%22%3E%3C%2Fpath%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M4.92639856%2C6.29800017%20L5.72210038%2C5.96728545%20L7.41814619%2C2.81611494%20C7.41814619%2C2.81611494%207.35107689%2C1.14598722%207.51997917%2C0.64347742%20C7.6892326%2C0.141335493%209.24411683%2C-0.7742918%2010.1595602%2C1.27805238%20C11.0746524%2C3.33002869%2010.1595602%2C4.47704593%2010.1595602%2C4.47704593%22%20id%3D%22Stroke-74%22%20stroke-linecap%3D%22round%22%3E%3C%2Fpath%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M7.67694242%2C13.3822479%20C6.87772911%2C13.0761804%204.82070295%2C12.2642924%204.82070295%2C12.2642924%22%20id%3D%22Stroke-76%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22bevel%22%3E%3C%2Fpath%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M7.72526041%2C13%20L12.290187%2C13%22%20id%3D%22Stroke-78%22%20stroke-linecap%3D%22round%22%3E%3C%2Fpath%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fg%3E%0A%20%20%20%20%20%20%20%20%3C%2Fg%3E%0A%20%20%20%20%3C%2Fg%3E%0A%3C%2Fsvg%3E") no-repeat top left;
+  background-size: 14px 13px;
+  padding-left: 16px;
+  line-height: 14px;
 }
 .octotree_issues_view .issue_buttons .issue_button_like_reacted {
   background: red;
 }
 .octotree_issues_view .issue_buttons .issue_button_volunteer {
-  margin-left: 5px;
-  display: inline-block;
+  margin-left: 10px;
+  background: url("data:image/svg+xml;charset=UTF-8,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3Csvg%20width%3D%2215px%22%20height%3D%2215px%22%20viewBox%3D%220%200%2015%2015%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E%0A%20%20%20%20%3C!--%20Generator%3A%20Sketch%2042%20(36781)%20-%20http%3A%2F%2Fwww.bohemiancoding.com%2Fsketch%20--%3E%0A%20%20%20%20%3Ctitle%3Euser%20-icon%3C%2Ftitle%3E%0A%20%20%20%20%3Cdesc%3ECreated%20with%20Sketch.%3C%2Fdesc%3E%0A%20%20%20%20%3Cdefs%3E%3C%2Fdefs%3E%0A%20%20%20%20%3Cg%20id%3D%22Page-1%22%20stroke%3D%22none%22%20stroke-width%3D%221%22%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%20stroke-linecap%3D%22round%22%3E%0A%20%20%20%20%20%20%20%20%3Cg%20id%3D%22Artboard%22%20transform%3D%22translate(-321.000000%2C%20-104.000000)%22%20stroke%3D%22%2343484D%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cg%20id%3D%22user--icon%22%20transform%3D%22translate(322.000000%2C%20105.000000)%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M12.9354697%2C10.9268293%20C12.9354697%2C8.79706169%2010.0578571%2C7.07030129%206.5079231%2C7.07030129%20C2.9579891%2C7.07030129%200.0803764706%2C8.79706169%200.0803764706%2C10.9268293%22%20id%3D%22Stroke-13%22%3E%3C%2Fpath%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M6.5079231%2C7.07309727%20C8.46029039%2C7.07309727%2010.0430737%2C5.49031392%2010.0430737%2C3.53794663%20C10.0430737%2C1.58557934%208.46029039%2C0.00279598278%206.5079231%2C0.00279598278%20C4.55555581%2C0.00279598278%202.97277245%2C1.58557934%202.97277245%2C3.53794663%20C2.97277245%2C5.49031392%204.55555581%2C7.07309727%206.5079231%2C7.07309727%20L6.5079231%2C7.07309727%20Z%22%20id%3D%22Stroke-15%22%3E%3C%2Fpath%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M12.8550933%2C10.9268293%20L12.8550933%2C13.0366714%20C12.8550933%2C13.2249986%2012.7911392%2C13.4978479%2012.6047403%2C13.4978479%20L0.411041607%2C13.4978479%20C0.228499283%2C13.4978479%200%2C13.2227489%200%2C13.0366714%20L0%2C10.9268293%22%20id%3D%22Stroke-17%22%3E%3C%2Fpath%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fg%3E%0A%20%20%20%20%20%20%20%20%3C%2Fg%3E%0A%20%20%20%20%3C%2Fg%3E%0A%3C%2Fsvg%3E") no-repeat top left;
+  background-size: 12px 12px;
+  padding-left: 13px;
+  line-height: 14px;
 }
 .octotree_issues_view .issue_buttons .issue_button_volunteer_reacted {
   background: red;

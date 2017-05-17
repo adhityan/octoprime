@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>user -icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
+        <g id="Artboard" transform="translate(-321.000000, -104.000000)" stroke="#43484D">
+            <g id="user--icon" transform="translate(322.000000, 105.000000)">
+                <path d="M12.9354697,10.9268293 C12.9354697,8.79706169 10.0578571,7.07030129 6.5079231,7.07030129 C2.9579891,7.07030129 0.0803764706,8.79706169 0.0803764706,10.9268293" id="Stroke-13"></path>
+                <path d="M6.5079231,7.07309727 C8.46029039,7.07309727 10.0430737,5.49031392 10.0430737,3.53794663 C10.0430737,1.58557934 8.46029039,0.00279598278 6.5079231,0.00279598278 C4.55555581,0.00279598278 2.97277245,1.58557934 2.97277245,3.53794663 C2.97277245,5.49031392 4.55555581,7.07309727 6.5079231,7.07309727 L6.5079231,7.07309727 Z" id="Stroke-15"></path>
+                <path d="M12.8550933,10.9268293 L12.8550933,13.0366714 C12.8550933,13.2249986 12.7911392,13.4978479 12.6047403,13.4978479 L0.411041607,13.4978479 C0.228499283,13.4978479 0,13.2227489 0,13.0366714 L0,10.9268293" id="Stroke-17"></path>
+            </g>
+        </g>
+    </g>
+</svg>

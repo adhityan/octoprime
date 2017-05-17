@@ -295,6 +295,9 @@ a.octotree_toggle {
     padding: 3px 10px;
     font-size: 13px;
     display: inline-block;
+    &:hover{
+      text-decoration: none;
+    }
   }
   &_browse {
   }
@@ -343,6 +346,7 @@ a.octotree_toggle {
 
   .issues_list {
     list-style: none;
+    padding: 5px 0px;
 
     li {
       list-style: none;
@@ -364,21 +368,23 @@ a.octotree_toggle {
   }
 
   .issue_buttons {
-    flex: 1 75px;
-    align-content: right;
+    flex: 1 85px;
+    text-align: right;
 
     .issue_button {
-      border: solid 1px grey;
-      cursor: hand;
+      display: inline-block;
+      cursor: pointer;
     }
 
     .issue_button:hover {
-      background: green;
-      color: white;
+      //color: white;
     }
 
     .issue_button_like {
-      display: inline-block;
+      background: data-uri('image/svg+xml;charset=UTF-8', '../adapters/octicons/like-icon.svg') no-repeat top left;
+      background-size: 14px 13px;
+      padding-left: 16px;
+      line-height: 14px;
 
       &_reacted {
         background: red;
@@ -390,8 +396,11 @@ a.octotree_toggle {
     }
 
     .issue_button_volunteer {
-      margin-left: 5px;
-      display: inline-block;
+      margin-left: 10px;
+      background: data-uri('image/svg+xml;charset=UTF-8', '../adapters/octicons/volunteer-icon.svg') no-repeat top left;
+      background-size: 12px 12px;
+      padding-left: 13px;
+      line-height: 14px;
 
       &_reacted {
         background: red;
