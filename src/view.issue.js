@@ -74,7 +74,7 @@ class IssueView {
         content += '</ul>'
                 +  '<div class=\'issues_add_panel\'>'
                 +  '<input type=\'text\' class=\'issues_add_panel_text\' />'
-                +  '<button disabled class=\'issues_add_panel_submit\'>Submit</button>'
+                +  '<button disabled class=\'issues_add_panel_submit\'>New issue</button>'
                 +  '</div>'
         this.$panel.html(content)
         if(this.shown) this._show()
@@ -242,7 +242,7 @@ class IssueView {
         content += '</ul>'
           +  '<div class=\'issues_add_panel\'>'
           +  '<input type=\'text\' class=\'issues_add_panel_text\' />'
-          +  '<button disabled class=\'issues_add_panel_submit\'>Submit</button>'
+          +  '<button disabled class=\'issues_add_panel_submit\'>New issue</button>'
           +  '</div>'
         this.$panel.html(content)
       }
