@@ -10,7 +10,7 @@ Browser extension (Chrome, Firefox, Opera and Safari) to show a code tree on Git
 * Support GitHub Enterprise (Chrome and Opera only, see [instructions](#enterprise-urls))
 
 __GitLab is no longer supported__:
-As of version 2.1.0, Octoprime no longer supports GitLab. There are 2 reasons for this. First, GitLab has changed so much recently that it would take a lot of effort to keep Octotree up to date. Second, the GitLab team has [told me](https://github.com/buunguyen/octotree/issues/265) they would build a tree feature in GitLab itself. I can't afford working on something knowing my effort will be irrelevant any time soon. That being said, if anyone wants to work on supporting the new GitLab, I'll gladly accept contributions to add back GitLab support.
+As of version 2.1.0, Octoprime no longer supports GitLab. There are 2 reasons for this. First, GitLab has changed so much recently that it would take a lot of effort to keep Octotree up to date. Second, the GitLab team has [told me](https://github.com/adhityan/octotree/issues/265) they would build a tree feature in GitLab itself. I can't afford working on something knowing my effort will be irrelevant any time soon. That being said, if anyone wants to work on supporting the new GitLab, I'll gladly accept contributions to add back GitLab support.
 
 ![Octotree on GitHub](docs/chrome-github.png)
 
@@ -26,19 +26,19 @@ __Note__: to configure Octoprime for GitHub Enteprise, see [instructions](#enter
 
 Octoprime is not available on the Safari gallery. Instead, you must use the prebuilt package or build one from source.
 
-* Download the [Safari prebuilt package](https://github.com/buunguyen/octotree/blob/master/dist/safari.safariextz?raw=true)
+* Download the [Safari prebuilt package](https://github.com/adhityan/octotree/blob/master/dist/safari.safariextz?raw=true)
 * Double-click or drag it to Safari
 
 ### Install from prebuilt packages (all browsers)
 
-Prebuilt packages are available in the  [dist](https://github.com/buunguyen/octotree/tree/master/dist) folder. For security reason, only download Octotree from this location.
+Prebuilt packages are available in the  [dist](https://github.com/adhityan/octotree/tree/master/dist) folder. For security reason, only download Octotree from this location.
 
-__Note__: Firefox 43+ requires add-ons to be signed. Therefore, you should install Octotree from the Mozilla store. For some reason if you want to install the prebuilt package instead, you have to [disable sign-check](https://github.com/buunguyen/octotree/issues/220#issuecomment-166012724).
+__Note__: Firefox 43+ requires add-ons to be signed. Therefore, you should install Octotree from the Mozilla store. For some reason if you want to install the prebuilt package instead, you have to [disable sign-check](https://github.com/adhityan/octotree/issues/220#issuecomment-166012724).
 
 ## Settings
 ### Access Token
 
-__Note for the paranoids (like me!)__: Octoprime stores access tokens in your browser local storage and never transmits it anywhere. If you want to verify, check out the source, starting with [this line](https://github.com/buunguyen/octotree/blob/master/src/view.options.js#L77).
+__Note for the paranoids (like me!)__: Octoprime stores access tokens in your browser local storage and never transmits it anywhere. If you want to verify, check out the source, starting with [this line](https://github.com/adhityan/octotree/blob/master/src/view.options.js#L77).
 
 #### GitHub
 Octoprime uses [GitHub API](https://developer.github.com/v3/) to retrieve repository metadata. By default, it makes unauthenticated requests to the GitHub API. However, there are two situations when requests must be authenticated:
@@ -73,5 +73,5 @@ By default, Octoprime only works on `github.com`. To support enterprise version 
 * __Load entire tree at once__: if checked, load and render the entire code tree at once. To avoid long loading, this should be unchecked if you frequently work with very large repos.
 
 ## Credits
-* [@buunguyen](https://github.com/buunguyen) from where this was originally forked from
+* [@adhityan](https://github.com/adhityan) from where this was originally forked from
 

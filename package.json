@@ -1,6 +1,6 @@
 {
   "name": "octotree",
-  "version": "2.1.0",
+  "version": "0.1.0",
   "description": "Super addon for GitHub",
   "main": "inject.js",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/buunguyen/octotree"
+    "url": "https://github.com/adhityan/octotree"
   },
   "author": "Adhityan <kvadhi@gmail.com> (https://github.com/adhityan)",
   "license": "AGPL",

@@ -328,7 +328,7 @@ class Adapter {
   }
 
   /**
-   * Returns the CSS class to be added to the Octotree sidebar.
+   * Returns the CSS class to be added to the Octoprime sidebar.
    * @api protected
    */
   getCssClass() {
@@ -658,7 +658,7 @@ class PjaxAdapter extends Adapter {
           hash = location.hash
 
           // If this is the first time this is called, no need to notify change as
-          // Octotree does its own initialization after loading options.
+          // Octoprime does its own initialization after loading options.
           if (firstLoad) {
             firstLoad = false
           }

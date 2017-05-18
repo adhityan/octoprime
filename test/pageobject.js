@@ -28,7 +28,7 @@ PageObject.prototype = {
         return url === _url
       })
     }, 5000)
-    yield sleep(1000) // since 1.7.2, Octotree uses longer timeout for loc change
+    yield sleep(1000) // since 1.7.2, Octoprime uses longer timeout for loc change
   },
 
   close: function *() {
