@@ -187,64 +187,54 @@ class Adapter {
   _loadIssues(opts, cb) {
     const login_handle = this._getLoginUser()
 
-    const post_process = (err, issues) => {
-      if (err) return cb(err)
-      //console.log('woah', issues)
-
-      issues.forEach((issue, index) => {
-        let is_user_assigned = false
-        issue.assignees.forEach((assignee) => {
-          if(assignee.login === login_handle) is_user_assigned = true
-        })
-
-        let help_wanted = false
-        issue.labels.forEach((label) => {
-          if(label.name === 'help wanted') help_wanted = true
-        })
-
-        let url = issue.html_url
-        if (url.indexOf('github.com') !== 0) url = url.replace(window.location.protocol + '//github.com', '')
-        issues[index].pjax_url = url
-        issues[index].help_wanted = help_wanted
-        issues[index].is_user_assigned = is_user_assigned
-      })
-
-      parallel(issues, (item, cb_inner, index) => {
-        this.getRepoFromUrl(item.pjax_url, (err, repo) => {
-          if(err) return cb_inner()
-          issues[index].repo = repo
-          cb_inner()
-        })
-      }, () => cb(null, issues))
-    }
-
-    if(this.canLoadIssueComments()) this._getIssues(opts, post_process)
+    if(this.canLoadIssueComments()) this._getIssues(opts, cb)
     else {
       this._getIssues(opts, (err, issues) => {
         if (err) return post_process(err)
 
         parallel(issues, (item, cb_inner, index) => {
-            this._getIssueReactions(item.number, opts, (err, reactions) => {
-              let positive = 0, negative = 0, neutral = 0, my_reaction = null
+            let is_user_assigned = false
+            item.assignees.forEach((assignee) => {
+              if(assignee.login === login_handle) is_user_assigned = true
+            })
 
-              if(err) {
-                console.log('Reactions error', err)
-                reactions = []
-              }
+            let help_wanted = false
+            item.labels.forEach((label) => {
+              if(label.name === 'help wanted') help_wanted = true
+            })
 
-              reactions.forEach((item) => {
-                if(item.content === '+1' || item.content === 'laugh' || item.content === 'heart' || item.content === 'hooray') positive++
-                else if(item.content === '-1') negative++
-                else neutral++
+            let url = item.html_url
+            if (url.indexOf('github.com') !== 0) url = url.replace(window.location.protocol + '//github.com', '')
 
-                if(item.user.login === login_handle) my_reaction = item
+            issues[index].help_wanted = help_wanted
+            issues[index].is_user_assigned = is_user_assigned
+            item.pjax_url = issues[index].pjax_url = url
+
+            this.getRepoFromUrl(item.pjax_url, (err, repo) => {
+              issues[index].repo = repo
+
+              this._getIssueReactions(item.number, { repo: repo, token: opts.token }, (err, reactions) => {
+                let positive = 0, negative = 0, neutral = 0, my_reaction = null
+
+                if(err) {
+                  console.log('Reactions error', err)
+                  reactions = []
+                }
+
+                reactions.forEach((item) => {
+                  if(item.content === '+1' || item.content === 'laugh' || item.content === 'heart' || item.content === 'hooray') positive++
+                  else if(item.content === '-1') negative++
+                  else neutral++
+
+                  if(item.user.login === login_handle) my_reaction = item
+                })
+
+                issues[index].reactions = { positive: positive, negative: negative, neutral: neutral, actual: reactions, user_reaction: my_reaction }
+                cb_inner()
               })
-
-              issues[index].reactions = { positive: positive, negative: negative, neutral: neutral, actual: reactions, user_reaction: my_reaction }
-              cb_inner()
             })
           },
-          () => post_process(null, issues)
+          () => cb(null, issues)
         )
       })
     }
@@ -261,7 +251,20 @@ class Adapter {
   _loadAllIssues(opts, cb) {
     const login_handle = this._getLoginUser()
 
-    if(this.canLoadIssueComments()) this._getAllUserIssues(opts, cb)
+    const group_post_process = (err, issues) => {
+      if (err) return cb(err)
+
+      let groups = {}
+      issues.forEach((issue) => {
+        if(!groups[issue.repo.username]) groups[issue.repo.username] = {}
+        if(!groups[issue.repo.username][issue.repo.reponame]) groups[issue.repo.username][issue.repo.reponame] = [];
+        (groups[issue.repo.username][issue.repo.reponame]).push(issue)
+      })
+
+      cb(null, groups)
+    }
+
+    if(this.canLoadIssueComments()) this.group_post_process(opts, cb)
     else {
       this._getAllUserIssues(opts, (err, issues) => {
         if (err) return post_process(err)
@@ -308,7 +311,7 @@ class Adapter {
               })
             })
           },
-          () => cb(null, issues)
+          () => group_post_process(null, issues)
         )
       })
     }

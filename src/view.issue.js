@@ -30,7 +30,7 @@ class IssueView {
     $(this).trigger(EVENT.VIEW_CLOSE)
   }
 
-  _showHeader(repo) {
+  _showRepoHeader(repo) {
     const adapter = this.adapter
 
     this.$view.find('.octotree_view_header')
@@ -55,13 +55,12 @@ class IssueView {
   load(repo, token) {
     this.repo = repo
     this.token = token
-    this._showHeader(repo)
+    this._showRepoHeader(repo)
 
     this.adapter.loadIssues({repo, token}, (err, issues) => {
       if (err) $(this).trigger(EVENT.FETCH_ERROR, [err])
       else {
         issues = this._sort(issues)
-        this.$contributeCounter.show()
 
         let content = '<ul class=\'issues_list\'>'
         console.log('here', issues)
@@ -73,6 +72,8 @@ class IssueView {
         })
 
         this.$contributeCounter.text(highlights)
+        this.$contributeCounter.show()
+
         content += '</ul>'
                 +  '<div class=\'issues_add_panel\'>'
                 +  '<input type=\'text\' class=\'issues_add_panel_text\' />'
@@ -84,30 +85,42 @@ class IssueView {
     })
   }
 
+  _showGeneralHeader(repo) {
+    this.$view.find('.octotree_view_header')
+      .html('Octoprime')
+  }
+
   loadAll(token) {
     this.token = token
+    this._showGeneralHeader()
 
-    this.adapter.loadAllIssues({token}, (err, issues) => {
+    this.adapter.loadAllIssues({token}, (err, users) => {
       if (err) $(this).trigger(EVENT.FETCH_ERROR, [err])
       else {
-        issues = this._sort(issues)
-        this.$contributeCounter.show()
+        console.log('here', users)
 
         let content = '<ul class=\'issues_list\'>'
-        console.log('here', issues)
 
-        let highlights = 0
-        issues.forEach((item) => {
-          content += this._issueHtml(item)
-          if(item.help_wanted || item.reactions.user_reaction) highlights++
-        })
+        for (let user in users) {
+          if (users.hasOwnProperty(user)) {
+            const repos = users[user]
 
-        this.$contributeCounter.text(highlights)
+            for (let repo in repos) {
+              if (repos.hasOwnProperty(repo)) {
+                content += this._userRepoSubHeader(user, repo)
+
+                let issues = repos[repo]
+                issues = this._sort(issues)
+
+                issues.forEach((item) => {
+                  content += this._issueHtml(item)
+                })
+              }
+            }
+          }
+        }
+
         content += '</ul>'
-          +  '<div class=\'issues_add_panel\'>'
-          +  '<input type=\'text\' class=\'issues_add_panel_text\' />'
-          +  '<button disabled class=\'issues_add_panel_submit\'>Submit</button>'
-          +  '</div>'
         this.$panel.html(content)
         this._show()
       }
@@ -124,6 +137,17 @@ class IssueView {
       else if(a.reactions.positive === b.reactions.positive) return -1
       else return 1
     })
+  }
+
+  _userRepoSubHeader(username, reponame) {
+    return '<li>'
+          +'<div class=\'issue-subheader\'>'
+          +'<span class=\'issue-subheader-username\'>'
+          +'<a href=\'https://github.com/' + username + '\'>' + username + '</a>'
+          +'</span><span class=\'issue-subheader-divider\'>/</span>'
+          +'</span><span class=\'issue-subheader-reponame\'>'
+          +'<a href=\'https://github.com/' + username + '/' + reponame + '\'>' + reponame + '</a>'
+          +'</span></div></li>'
   }
 
   _issueHtml(issue) {

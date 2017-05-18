@@ -292,7 +292,6 @@ class GitHub extends PjaxAdapter {
     let url;
     if (opts.absolute_url) url = `${host}${path}`
     else url = `${host}/repos/${opts.repo.username}/${opts.repo.reponame}${path || ''}`
-    console.log('ahoi',url, opts)
 
     const cfg  = { url, method: 'GET', cache: false, headers: {} }
 
