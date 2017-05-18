@@ -63,7 +63,7 @@ class IssueView {
         issues = this._sort(issues)
 
         let content = '<ul class=\'issues_list\'>'
-        console.log('here', issues)
+        //console.log('here', issues)
 
         let highlights = 0
         issues.forEach((item) => {
@@ -72,7 +72,8 @@ class IssueView {
         })
 
         this.$contributeCounter.text(highlights)
-        this.$contributeCounter.show()
+        if(highlights > 0) this.$contributeCounter.show()
+        else this.$contributeCounter.hide()
 
         content += '</ul>'
                 +  '<div class=\'issues_add_panel\'>'
@@ -97,7 +98,7 @@ class IssueView {
     this.adapter.loadAllIssues({token}, (err, users) => {
       if (err) $(this).trigger(EVENT.FETCH_ERROR, [err])
       else {
-        console.log('here', users)
+        //console.log('here', users)
 
         let content = '<ul class=\'issues_list\'>'
 
@@ -284,6 +285,7 @@ class IssueView {
       $textfield.val('')
 
       this.$contributeCounter.text(parseInt(this.$contributeCounter.text()) + 1)
+      this.$contributeCounter.show()
     })
   }
 
@@ -291,7 +293,6 @@ class IssueView {
     this.adapter.loadIssues({repo: this.repo, token: this.token}, (err, issues) => {
       if (!err) {
         issues = this._sort(issues)
-        this.$contributeCounter.text(issues.length)
 
         let content = '<ul class=\'issues_list\'>'
         //console.log('here', issues)
@@ -303,6 +304,9 @@ class IssueView {
         })
 
         this.$contributeCounter.text(highlights)
+        if(highlights > 0) this.$contributeCounter.show()
+        else this.$contributeCounter.hide()
+
         content += '</ul>'
           +  '<div class=\'issues_add_panel\'>'
           +  '<input type=\'text\' class=\'issues_add_panel_text\' />'
