@@ -63,7 +63,7 @@ $(document).ready(() => {
           }
           showView(this.$view)
         })
-        .on(EVENT.VIEW_CLOSE, () => showView(hasError ? errorView.$view : treeView.$view))
+        .on(EVENT.VIEW_CLOSE, () => showView(hasError ? errorView.$view : (issuesView.shown?issuesView.$view:treeView.$view)))
         .on(EVENT.OPTS_CHANGE, optionsChanged)
         .on(EVENT.FETCH_ERROR, (event, err) => showError(err))
     })
