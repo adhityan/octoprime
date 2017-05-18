@@ -1,7 +1,7 @@
 {
   "name": "Octoprime",
   "version": "$VERSION",
-  "manifest_version": 1,
+  "manifest_version": 2,
   "author": "Adhityan",
   "description": "Super addon for GitHub",
   "homepage_url": "https://github.com/adhityan/octotree",
