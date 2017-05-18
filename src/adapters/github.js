@@ -78,7 +78,6 @@ class GitHub extends PjaxAdapter {
 
   // @override
   getRepoFromPath(showInNonCodePage, currentRepo, token, cb) {
-
     // 404 page, skip
     if ($(GH_404_SEL).length) {
       return cb()
@@ -133,6 +132,18 @@ class GitHub extends PjaxAdapter {
         cb(null, repo)
       })
     }
+  }
+
+  // @override
+  getRepoFromUrl(url, cb) {
+    // (username)/(reponame)[/(type)]
+    const match = url.match(/([^\/]+)\/([^\/]+)(?:\/([^\/]+))?/)
+    if (!match) { return cb(true) }
+
+    const username = match[1]
+    const reponame = match[2]
+    const repo = { username: username, reponame: reponame }
+    cb(null, repo)
   }
 
   // @override

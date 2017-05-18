@@ -61,16 +61,18 @@ class IssueView {
       if (err) $(this).trigger(EVENT.FETCH_ERROR, [err])
       else {
         issues = this._sort(issues)
-        this.$contributeCounter.text(issues.length)
         this.$contributeCounter.show()
 
         let content = '<ul class=\'issues_list\'>'
-        //console.log('here', issues)
+        console.log('here', issues)
 
+        let highlights = 0
         issues.forEach((item) => {
           content += this._issueHtml(item)
-
+          if(item.help_wanted || item.reactions.user_reaction) highlights++
         })
+
+        this.$contributeCounter.text(highlights)
         content += '</ul>'
                 +  '<div class=\'issues_add_panel\'>'
                 +  '<input type=\'text\' class=\'issues_add_panel_text\' />'
@@ -96,10 +98,11 @@ class IssueView {
 
   _issueHtml(issue) {
     return '<li class=\''
-          +((issue.help_wanted)?'issue_help_wanted':'')
-          +'\'><div class=\'issue_entry\' data-id=\'' + issue.number + '\'>'
-          +'<div class=\'issue_title\'>'
-          +'<a class=\'issue-anchor\' data-href=\'' + issue.html_url + '\'>'
+          +((issue.help_wanted)?'issue_help_wanted':'') + '\' '
+          +'data-username=\'' + issue.repo.username + '\' data-reponame=\'' + issue.repo.reponame + '\' '
+          +'data-id=\'' + issue.number + '\'>'
+          +'<div class=\'issue_entry\'><div class=\'issue_title\'>'
+          +'<a class=\'issue-anchor\' data-href=\'' + issue.pjax_url + '\'>'
           +issue.title
           +'</a></div>'
           +'<div class=\'issue_buttons\'>'
@@ -122,14 +125,16 @@ class IssueView {
 
   _onLikeClick(event) {
     const $target = $(event.currentTarget)
+    const $rootParent = $target.closest('li')
     const $counter = $target.children('.issue_button_counter')
-    const issueId = $target.closest('.issue_entry').data('id')
     const has_reacted = $target.hasClass('issue_button_like_reacted')
+    const repo = {reponame: $rootParent.data('reponame'), username: $rootParent.data('username')}
+    const issueId = $rootParent.data('id')
     let current_likes = parseInt($counter.text())
 
     if(has_reacted) {
       var reaction_id = $target.data('reaction-id')
-      this.adapter.removeIssueReaction(issueId, reaction_id, {repo: this.repo, token: this.token}, (err, reaction) => {
+      this.adapter.removeIssueReaction(issueId, reaction_id, {repo: repo, token: this.token}, (err, reaction) => {
         if(err) return console.log('Error', err)
 
         current_likes--
@@ -139,7 +144,7 @@ class IssueView {
       })
     }
     else {
-      this.adapter.addIssueReaction(issueId, 'heart', {repo: this.repo, token: this.token}, (err, reaction) => {
+      this.adapter.addIssueReaction(issueId, 'heart', {repo: repo, token: this.token}, (err, reaction) => {
         if(err) return console.log('Error', err)
 
         current_likes++
@@ -152,13 +157,15 @@ class IssueView {
 
   _onVolunteerClick(event) {
     const $target = $(event.currentTarget)
+    const $rootParent = $target.closest('li')
     const $counter = $target.children('.issue_button_counter')
-    const issueId = $target.closest('.issue_entry').data('id')
     const has_reacted = $target.hasClass('issue_button_volunteer_reacted')
+    const repo = {reponame: $rootParent.data('reponame'), username: $rootParent.data('username')}
+    const issueId = $rootParent.data('id')
     let current_volunteers = parseInt($counter.text())
 
     if(has_reacted) {
-      this.adapter.unAssignMeFromIssue(issueId, {repo: this.repo, token: this.token}, (err, reaction) => {
+      this.adapter.unAssignMeFromIssue(issueId, {repo: repo, token: this.token}, (err) => {
         if(err) return console.log('Error', err)
 
         current_volunteers--
@@ -167,7 +174,7 @@ class IssueView {
       })
     }
     else {
-      this.adapter.assignMeToIssue(issueId, {repo: this.repo, token: this.token}, (err, reaction) => {
+      this.adapter.assignMeToIssue(issueId, {repo: repo, token: this.token}, (err) => {
         if(err) return console.log('Error', err)
 
         current_volunteers++
@@ -235,10 +242,13 @@ class IssueView {
         let content = '<ul class=\'issues_list\'>'
         //console.log('here', issues)
 
+        let highlights = 0
         issues.forEach((item) => {
           content += this._issueHtml(item)
+          if(item.help_wanted || item.reactions.user_reaction) highlights++
         })
 
+        this.$contributeCounter.text(highlights)
         content += '</ul>'
           +  '<div class=\'issues_add_panel\'>'
           +  '<input type=\'text\' class=\'issues_add_panel_text\' />'

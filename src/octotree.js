@@ -142,6 +142,7 @@ $(document).ready(() => {
         }
         else if(window.location.pathname === '/') {
           console.log('Home page')
+
         }
         else {
           $toggler.hide()

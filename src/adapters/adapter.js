@@ -204,12 +204,18 @@ class Adapter {
 
         let url = issue.html_url
         if (url.indexOf('github.com') !== 0) url = url.replace(window.location.protocol + '//github.com', '')
-        issues[index].html_url = url
+        issues[index].pjax_url = url
         issues[index].help_wanted = help_wanted
         issues[index].is_user_assigned = is_user_assigned
       })
 
-      cb(null, issues)
+      parallel(issues, (item, cb_inner, index) => {
+        this.getRepoFromUrl(item.pjax_url, (err, repo) => {
+          if(err) return cb_inner()
+          issues[index].repo = repo
+          cb_inner()
+        })
+      }, () => cb(null, issues))
     }
 
     if(this.canLoadIssueComments()) this._getIssues(opts, post_process)
@@ -217,8 +223,7 @@ class Adapter {
       this._getIssues(opts, (err, issues) => {
         if (err) return post_process(err)
 
-        parallel(issues,
-          (item, cb_inner, index) => {
+        parallel(issues, (item, cb_inner, index) => {
             this._getIssueReactions(item.number, opts, (err, reactions) => {
               let positive = 0, negative = 0, neutral = 0, my_reaction = null
               reactions.forEach((item) => {
@@ -320,6 +325,14 @@ class Adapter {
    * @api public
    */
   getRepoFromPath(showInNonCodePage, currentRepo, token, cb) {
+    throw new Error('Not implemented')
+  }
+
+  /**
+   * Returns repo info based on passed url.
+   * @api public
+   */
+  getRepoFromUrl(url, cb) {
     throw new Error('Not implemented')
   }
 
@@ -498,10 +511,15 @@ class Adapter {
         let url = issue.html_url
         if (url.indexOf('github.com') !== 0) url = url.replace(window.location.protocol + '//github.com', '')
         issue.reactions = { positive: 1, negative: 0, neutral: 0, actual: [reaction], user_reaction: reaction }
-        issue.html_url = url
+        issue.pjax_url = url
         issue.is_user_assigned = false
         issue.help_wanted = help_wanted
-        cb(null, issue)
+
+        this.getRepoFromUrl(issue.pjax_url, (err, repo) => {
+          if(err) return cb(err)
+          issue.repo = repo
+          cb(null, issue)
+        })
       })
     })
   }
