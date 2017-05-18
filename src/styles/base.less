@@ -295,6 +295,7 @@ a.octotree_toggle {
 .octoprime_links {
   border-bottom: 1px solid rgb(225, 228, 232);
   border-right: 1px solid rgb(225, 228, 232);
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 2px 6px -4px;
   &_link{
     padding: 5px 0px;
     font-size: 13px;
@@ -337,6 +338,10 @@ a.octotree_toggle {
 .octotree_issues_view {
   .octotree_view_header {
     padding-left: 13px;
+    &_title{
+      padding-top: 5px;
+      display: inline-block;
+    }
   }
   .octotree_header_repo, .octotree_header_branch {
     width: 100%;
@@ -366,10 +371,20 @@ a.octotree_toggle {
     margin-right: 8px;
     margin-left: 3px;
   }
+  .issue-subheader{
+    background-color: #e9e9e9;
+    color:#666666;
+    &:hover{
+      background-color: #e9e9e9 !important;
+    }
+    a{
+      color:#666666;
+    }
+  }
 
   .issues_list {
     list-style: none;
-    padding: 5px 0px;
+    padding: 0px 0px 5px 0px;
 
     li {
       list-style: none;
@@ -387,7 +402,7 @@ a.octotree_toggle {
   }
 
   .issue_help_wanted {
-    background-color: #e6f1f5;
+    background-color: #FEFCE1;
   }
 
   .issue_title {
