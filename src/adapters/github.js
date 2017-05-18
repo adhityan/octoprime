@@ -78,7 +78,6 @@ class GitHub extends PjaxAdapter {
 
   // @override
   getRepoFromPath(showInNonCodePage, currentRepo, token, cb) {
-
     // 404 page, skip
     if ($(GH_404_SEL).length) {
       return cb()
@@ -136,6 +135,18 @@ class GitHub extends PjaxAdapter {
   }
 
   // @override
+  getRepoFromUrl(url, cb) {
+    // (username)/(reponame)[/(type)]
+    const match = url.match(/([^\/]+)\/([^\/]+)(?:\/([^\/]+))?/)
+    if (!match) { return cb(true) }
+
+    const username = match[1]
+    const reponame = match[2]
+    const repo = { username: username, reponame: reponame }
+    cb(null, repo)
+  }
+
+  // @override
   selectFile(path) {
     const $pjaxContainer = $(GH_PJAX_CONTAINER_SEL)
     super.selectFile(path, {'$pjaxContainer': $pjaxContainer})
@@ -144,6 +155,11 @@ class GitHub extends PjaxAdapter {
   // @override
   loadIssues(opts, cb) {
     this._loadIssues(opts, cb)
+  }
+
+  // @override
+  loadAllIssues(opts, cb) {
+    this._loadAllIssues(opts, cb)
   }
 
   // @override
@@ -159,6 +175,18 @@ class GitHub extends PjaxAdapter {
     this._get(`/git/trees/${path}`, opts, (err, res) => {
       if (err) cb(err)
       else cb(null, res.tree)
+    })
+  }
+
+  // @override
+  _getAllUserIssues(opts, cb) {
+    opts.absolute_url = true
+    this._get(`/user/issues`, opts, (err, res) => {
+      if (err) cb(err)
+      else {
+        res = res.filter((item) => !item.pull_request)
+        cb(null, res)
+      }
     })
   }
 

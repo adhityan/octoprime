@@ -33,6 +33,7 @@ $(document).ready(() => {
     const $dom = $(TEMPLATE)
     const $sidebar = $dom.find('.octotree_sidebar')
     const $toggler = $sidebar.find('.octotree_toggle')
+    const $tabs = $sidebar.find('.octoprime_links')
     const $views = $sidebar.find('.octotree_view')
     const adapter = createAdapter()
     const treeView = new TreeView($dom, store, adapter)
@@ -117,6 +118,7 @@ $(document).ready(() => {
           showError(err)
         }
         else if (repo) {
+          showTabs()
           $toggler.show()
 
           if (remember && shown) {
@@ -142,6 +144,16 @@ $(document).ready(() => {
         }
         else if(window.location.pathname === '/') {
           console.log('Home page')
+          hideTabs()
+
+          $toggler.show()
+          if (remember && shown) {
+            toggleSidebar(true)
+          }
+
+          if (isSidebarVisible()) {
+            issuesView.loadAll(token)
+          }
         }
         else {
           $toggler.hide()
@@ -150,6 +162,14 @@ $(document).ready(() => {
         helpPopup.init()
         layoutChanged()
       })
+    }
+
+    function showTabs() {
+      $tabs.show()
+    }
+
+    function hideTabs() {
+      $tabs.hide()
     }
 
     function showView(view) {
