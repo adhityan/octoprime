@@ -87,7 +87,7 @@ class IssueView {
 
   _showGeneralHeader(repo) {
     this.$view.find('.octotree_view_header')
-      .html('Octoprime')
+      .html('<span class="octotree_view_header_title">Octoprime</span>')
   }
 
   loadAll(token) {
@@ -140,8 +140,8 @@ class IssueView {
   }
 
   _userRepoSubHeader(username, reponame) {
-    return '<li>'
-          +'<div class=\'issue-subheader\'>'
+    return '<li class=\'issue-subheader\'>'
+          +'<div>'
           +'<span class=\'issue-subheader-username\'>'
           +'<a href=\'https://github.com/' + username + '\'>' + username + '</a>'
           +'</span><span class=\'issue-subheader-divider\'>/</span>'
