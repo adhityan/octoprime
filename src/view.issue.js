@@ -84,13 +84,43 @@ class IssueView {
     })
   }
 
+  loadAll(token) {
+    this.token = token
+
+    this.adapter.loadAllIssues({token}, (err, issues) => {
+      if (err) $(this).trigger(EVENT.FETCH_ERROR, [err])
+      else {
+        issues = this._sort(issues)
+        this.$contributeCounter.show()
+
+        let content = '<ul class=\'issues_list\'>'
+        console.log('here', issues)
+
+        let highlights = 0
+        issues.forEach((item) => {
+          content += this._issueHtml(item)
+          if(item.help_wanted || item.reactions.user_reaction) highlights++
+        })
+
+        this.$contributeCounter.text(highlights)
+        content += '</ul>'
+          +  '<div class=\'issues_add_panel\'>'
+          +  '<input type=\'text\' class=\'issues_add_panel_text\' />'
+          +  '<button disabled class=\'issues_add_panel_submit\'>Submit</button>'
+          +  '</div>'
+        this.$panel.html(content)
+        this._show()
+      }
+    })
+  }
+
   _sort(issues) {
     return issues.sort((a, b) => {
       //console.log(a.title, b.title, a.reactions.positive, b.reactions.positive, a.help_wanted, b.help_wanted)
-      if(a.reactions.positive > b.reactions.positive) return -1
-      else if(a.reactions.positive < b.reactions.positive) return 1
-      else if(a.help_wanted && !b.help_wanted) return -1
+      if(a.help_wanted && !b.help_wanted) return -1
       else if(!a.help_wanted && b.help_wanted) return 1
+      else if(a.reactions.positive > b.reactions.positive) return -1
+      else if(a.reactions.positive < b.reactions.positive) return 1
       else if(a.reactions.positive === b.reactions.positive) return -1
       else return 1
     })

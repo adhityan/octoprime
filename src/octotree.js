@@ -145,6 +145,15 @@ $(document).ready(() => {
         else if(window.location.pathname === '/') {
           console.log('Home page')
           hideTabs()
+
+          $toggler.show()
+          if (remember && shown) {
+            toggleSidebar(true)
+          }
+
+          if (isSidebarVisible()) {
+            issuesView.loadAll(token)
+          }
         }
         else {
           $toggler.hide()

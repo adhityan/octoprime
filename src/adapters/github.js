@@ -158,6 +158,11 @@ class GitHub extends PjaxAdapter {
   }
 
   // @override
+  loadAllIssues(opts, cb) {
+    this._loadAllIssues(opts, cb)
+  }
+
+  // @override
   loadCodeTree(opts, cb) {
     opts.encodedBranch = encodeURIComponent(decodeURIComponent(opts.repo.branch))
     opts.path = (opts.node && (opts.node.sha || opts.encodedBranch)) ||
@@ -170,6 +175,18 @@ class GitHub extends PjaxAdapter {
     this._get(`/git/trees/${path}`, opts, (err, res) => {
       if (err) cb(err)
       else cb(null, res.tree)
+    })
+  }
+
+  // @override
+  _getAllUserIssues(opts, cb) {
+    opts.absolute_url = true
+    this._get(`/user/issues`, opts, (err, res) => {
+      if (err) cb(err)
+      else {
+        res = res.filter((item) => !item.pull_request)
+        cb(null, res)
+      }
     })
   }
 
@@ -275,6 +292,7 @@ class GitHub extends PjaxAdapter {
     let url;
     if (opts.absolute_url) url = `${host}${path}`
     else url = `${host}/repos/${opts.repo.username}/${opts.repo.reponame}${path || ''}`
+    console.log('ahoi',url, opts)
 
     const cfg  = { url, method: 'GET', cache: false, headers: {} }
 

@@ -226,6 +226,12 @@ class Adapter {
         parallel(issues, (item, cb_inner, index) => {
             this._getIssueReactions(item.number, opts, (err, reactions) => {
               let positive = 0, negative = 0, neutral = 0, my_reaction = null
+
+              if(err) {
+                console.log('Reactions error', err)
+                reactions = []
+              }
+
               reactions.forEach((item) => {
                 if(item.content === '+1' || item.content === 'laugh' || item.content === 'heart' || item.content === 'hooray') positive++
                 else if(item.content === '-1') negative++
@@ -239,6 +245,70 @@ class Adapter {
             })
           },
           () => post_process(null, issues)
+        )
+      })
+    }
+  }
+
+  /**
+   * Loads all the issues for a user.
+   * @param {Object} opts: {
+   *                  repo: the current repository,
+   *                  token (optional): the personal access token
+   *                 }
+   * @param {Function} cb(err: error, tree: Array[Array|item])
+   */
+  _loadAllIssues(opts, cb) {
+    const login_handle = this._getLoginUser()
+
+    if(this.canLoadIssueComments()) this._getAllUserIssues(opts, cb)
+    else {
+      this._getAllUserIssues(opts, (err, issues) => {
+        if (err) return post_process(err)
+
+        parallel(issues, (item, cb_inner, index) => {
+            let is_user_assigned = false
+            item.assignees.forEach((assignee) => {
+              if(assignee.login === login_handle) is_user_assigned = true
+            })
+
+            let help_wanted = false
+            item.labels.forEach((label) => {
+              if(label.name === 'help wanted') help_wanted = true
+            })
+
+            let url = item.html_url
+            if (url.indexOf('github.com') !== 0) url = url.replace(window.location.protocol + '//github.com', '')
+
+            issues[index].help_wanted = help_wanted
+            issues[index].is_user_assigned = is_user_assigned
+            item.pjax_url = issues[index].pjax_url = url
+
+            this.getRepoFromUrl(item.pjax_url, (err, repo) => {
+              issues[index].repo = repo
+
+              this._getIssueReactions(item.number, { repo: repo, token: opts.token }, (err, reactions) => {
+                let positive = 0, negative = 0, neutral = 0, my_reaction = null
+
+                if(err) {
+                  console.log('Reactions error', err)
+                  reactions = []
+                }
+
+                reactions.forEach((item) => {
+                  if(item.content === '+1' || item.content === 'laugh' || item.content === 'heart' || item.content === 'hooray') positive++
+                  else if(item.content === '-1') negative++
+                  else neutral++
+
+                  if(item.user.login === login_handle) my_reaction = item
+                })
+
+                issues[index].reactions = { positive: positive, negative: negative, neutral: neutral, actual: reactions, user_reaction: my_reaction }
+                cb_inner()
+              })
+            })
+          },
+          () => cb(null, issues)
         )
       })
     }
@@ -301,6 +371,14 @@ class Adapter {
    * @api public
    */
   loadIssues(opts, cb) {
+    throw new Error('Not implemented')
+  }
+
+  /**
+   * Loads all user issues.
+   * @api public
+   */
+  loadAllIssues(opts, cb) {
     throw new Error('Not implemented')
   }
 
@@ -377,6 +455,15 @@ class Adapter {
    * @api protected
    */
   _getTree(path, opts, cb) {
+    throw new Error('Not implemented')
+  }
+
+  /**
+   * Gets all issues visible to the user.
+   * @param {Object} opts - {token, repo}
+   * @api protected
+   */
+  _getAllUserIssues(opts, cb) {
     throw new Error('Not implemented')
   }
 
