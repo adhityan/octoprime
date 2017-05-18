@@ -73,5 +73,5 @@ By default, Octoprime only works on `github.com`. To support enterprise version 
 * __Load entire tree at once__: if checked, load and render the entire code tree at once. To avoid long loading, this should be unchecked if you frequently work with very large repos.
 
 ## Credits
-* [@adhityan](https://github.com/adhityan) from where this was originally forked from
+* [@buunguyen](https://github.com/buunguyen) from where this was originally forked 
 
